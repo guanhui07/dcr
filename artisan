@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+define('DCR_START', microtime(true));
+
+require __DIR__.'/vendor/autoload.php';
+
+use dcr\Boostrap;
+use dcr\CommandBootstrap;
+use dcr\Container;
+
+$time = set_time_limit(0);
+$container = Container::instance();
+
+// 初始化 注册 config env  db orm  facade门面
+/** @var Boostrap $bootstrap */
+$bootstrap = $container->make(Boostrap::class);
+$bootstrap->run();
+
+CommandBootstrap::bootstrap();
+
+
