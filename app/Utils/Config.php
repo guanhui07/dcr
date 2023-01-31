@@ -51,7 +51,7 @@ class Config
                     return $arr;
             }
         }
-        $v = self::processConfigArr($arr);
+        $arr = self::processConfigArr($arr);
         return $arr;
     }
 
