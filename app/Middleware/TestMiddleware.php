@@ -12,7 +12,7 @@ class TestMiddleware implements MiddlewareInterface
     public function handle()
     {
         return static function ($request, $next) {
-            //            echo 'from middleware';return;
+            //            throw new RuntimeException('未登录');
             $response = $next->handle($request);
             return $response;
         };

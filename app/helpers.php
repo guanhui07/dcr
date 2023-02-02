@@ -2,6 +2,7 @@
 
 use app\Utils\Config;
 use app\Utils\Json;
+use app\Utils\Str;
 use dcr\EventInstance;
 use dcr\Request\Request;
 use Doctrine\Common\EventArgs;
@@ -632,6 +633,19 @@ function createDirectoryIfNeeded($directory)
     }
 }
 
-
+if (! function_exists('str_random')) {
+    /**
+     * Generate a more truly "random" alpha-numeric string.
+     *
+     * @param  int  $length
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    function str_random($length = 16)
+    {
+        return Str::random($length);
+    }
+}
 
 

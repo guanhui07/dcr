@@ -8,6 +8,7 @@ use app\Model\UserModel;
 use app\Service\Entity\ExchGiftInfo;
 use app\Service\Entity\TestEntity;
 use app\Service\TestService;
+use app\Utils\JwtToken;
 use app\Utils\Log;
 use Carbon\Carbon;
 use dcr\Facade\TestFacade;
@@ -192,6 +193,18 @@ class TestController extends Controller
         $image = $manager->make('public/image/test.jpg')->resize(300, 200);
         Image::make('public/image/test.jpg')->resize(320, 240)->insert('public/image/watermark.png');
         return $this->uploadByQiniuGetUri($image);
+    }
+
+    public function token()
+    {
+        $token = JwtToken::encode([
+            'uid'=>27,
+            'name'=>'test',
+        ]);
+        //        dd($token);
+        //        $token = '1813bef4c03caef6ec45380a7246d110';
+        $arr = JwtToken::decode($token);
+        return apiResponse($arr);
     }
 }
 
