@@ -59,6 +59,7 @@
     "ext-pcntl": "*"
   },
   "require-dev": {
+    "phpunit/php-timer": "^5.0",
     "phpunit/phpunit": "^9.5",
     "roave/security-advisories": "dev-latest",
     "swoole/ide-helper": "~5.0.0"

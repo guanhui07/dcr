@@ -40,7 +40,6 @@ class Controller
     /**
      * @param $middleware
      *
-     * @return \Psr\Http\Message\ResponseInterface
      * @see https://github.com/middlewares/utils
      */
     public function middleware($middleware)
@@ -54,13 +53,19 @@ class Controller
             $obj   = (new $class);
             $arr[] = $obj->handle();
         }
-        $response = Dispatcher::run($arr + [
-                function ($request, $next) {
-                    $response = $next->handle($request);
-                    return $response;
-                },
-            ]);
-        return $response;
+        try{
+            Dispatcher::run($arr + [
+                    function ($request, $next) {
+                        //                echo 'from middleware';die;
+                        $response = $next->handle($request);
+                        return $response;
+                    },
+                ]);
+        }catch(\Exception $e){
+            throw $e;
+        }
+
+
     }
 
     // 初始化

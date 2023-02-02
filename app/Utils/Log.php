@@ -15,7 +15,7 @@ class Log
 {
     public static function info($str)
     {
-        $log = self::getLogger(Logger::WARNING);
+        $log = self::getLogger(Logger::INFO);
         $log->warning((string)$str);
     }
 
