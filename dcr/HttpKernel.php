@@ -6,6 +6,7 @@ namespace dcr;
 use app\Utils\Json;
 use DI\DependencyException;
 use DI\NotFoundException;
+use Exception;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
@@ -64,25 +65,30 @@ class HttpKernel
             return false;
         }
 
-        //    $o = new $class_name();
+        try{
+            //    $o = new $class_name();
 
-        // 实例化器能够创建任何类的新实例，而无需使用类本身的构造函数或任何 API：
-        //    $instantiator = new \Doctrine\Instantiator\Instantiator();
-        //    $o = $instantiator->instantiate($class_name);
-        $o = $container->get($class_name);
+            // 实例化器能够创建任何类的新实例，而无需使用类本身的构造函数或任何 API：
+            //    $instantiator = new \Doctrine\Instantiator\Instantiator();
+            //    $o = $instantiator->instantiate($class_name);
+            $o = $container->get($class_name);
 
-        if (method_exists($o, $action)) {
-            $temp = $o->$action();
-            if (is_array($temp)) {
-                return Json::encode($temp);
+            if (method_exists($o, $action)) {
+                $temp = $o->$action();
+                if (is_array($temp)) {
+                    return Json::encode($temp);
+                }
+
+                if (is_string($temp) || is_int($temp)) {
+                    return $temp;
+                }
+            } else {
+                return (Json::encode(['status' => 10010, 'msg' => 'action error']));
             }
-
-            if (is_string($temp) || is_int($temp)) {
-                return $temp;
-            }
-        } else {
-            return (Json::encode(['status' => 10010, 'msg' => 'action error']));
+        }catch (Exception $e) {
+            return $e->getMessage();
         }
+
         return $routerArr;
     }
 
@@ -125,20 +131,24 @@ class HttpKernel
                 return (Json::encode(['status' => 10010, 'msg' => 'route method not allow,'.$allowedMethods.' method is allow']));
             // 调用$handler和$vars*
             case Dispatcher::FOUND:
-                if (is_object($routeInfo[1])) {
-                    $handler = $routeInfo[1];
-                    $str     = $handler();
+                try{
+                    if (is_object($routeInfo[1])) {
+                        $handler = $routeInfo[1];
+                        $str     = $handler();
+                        return $str;
+                    }
+
+                    //                $controller = new $routeInfo[1][0];
+                    //                $instantiator = new \Doctrine\Instantiator\Instantiator();
+                    //                $controller = $instantiator->instantiate($routeInfo[1][0]);
+                    $method = $routeInfo[1][1];
+                    //                $controller->$method();
+                    $str = $container->get($routeInfo[1][0])->$method();
                     return $str;
+                }catch(Exception $e){
+                    return $e->getMessage();
                 }
 
-                //                $controller = new $routeInfo[1][0];
-                //                $instantiator = new \Doctrine\Instantiator\Instantiator();
-                //                $controller = $instantiator->instantiate($routeInfo[1][0]);
-                $method = $routeInfo[1][1];
-                //                $controller->$method();
-                $str = $container->get($routeInfo[1][0])->$method();
-                return $str;
-            // ... call $handler with $vars
         }
         return '';
     }
