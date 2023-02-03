@@ -12,6 +12,7 @@ use app\Utils\JwtToken;
 use app\Utils\LogBase;
 use Carbon\Carbon;
 use dcr\Facade\TestFacade;
+use DI\Attribute\Inject;
 use Exception;
 use Gregwar\Captcha\CaptchaBuilder;
 use GuzzleHttp\Client;
@@ -23,12 +24,14 @@ use Intervention\Image\ImageManager;
 class TestController extends Controller
 {
     /**
+     * php8注解方式注入
      * @var TestService
      */
+    #[Inject]
     public TestService $testService;
 
     /**
-     * 测试依赖注入
+     * 测试构造参数依赖注入
      * 测试使用中间件
      *
      * @param  TestService  $s
@@ -36,7 +39,7 @@ class TestController extends Controller
     public function __construct(TestService $s)
     {
         parent::__construct();
-        $this->testService = $s;
+        //        $this->testService = $s;
         $this->middleware(TestMiddleware::$name);
     }
 
@@ -202,8 +205,8 @@ class TestController extends Controller
             'uid'=>27,
             'name'=>'test',
         ]);
-//        dd($token);
-//        $token = '1813bef4c03caef6ec45380a7246d110';
+        //        dd($token);
+        //        $token = '1813bef4c03caef6ec45380a7246d110';
         $arr = JwtToken::decode($token);
         return apiResponse($arr);
     }

@@ -12,8 +12,10 @@ use app\Utils\JwtToken;
 use app\Utils\Log;
 use app\Utils\LogBase;
 use app\Utils\Redis;
+use dcr\Request as DcrRequest;
 use dcr\Request\Request;
 use dcr\Response\Response;
+use DI\Attribute\Inject;
 use Middlewares\Utils\Dispatcher;
 use Predis\Client;
 
@@ -26,46 +28,32 @@ class Controller
     public static null|array|string $user   = []; // 用户token信息
     public static array             $params = [];
 
-    /**
-     *
-     */
-    public $request;
+    #[Inject]
+    public DcrRequest $request;
 
-    /**
-     * @var Response|mixed
-     */
-    public $response;
+    #[Inject]
+    public Response $response;
 
-    /**
-     * @var Config|mixed
-     */
-    public $config;
+    #[Inject]
+    public Config $config;
+    #[Inject]
+    public \GuzzleHttp\Client $guzzleClient;
 
-    /**
-     * @var \GuzzleHttp\Client|mixed
-     */
-    public $guzzleClient;
-
-    /**
-     * @var Client
-     */
     public $redis;
-    /**
-     * @var Log
-     */
-    public $logger;
+
+    #[Inject]
+    public Log $logger;
 
     public function __construct()
     {
-        $this->request = Request::instance();
-
-        $this->response     = di()->get(Response::class);
-        $this->logger       = di()->get(Log::class);
-        $this->config       = di()->get(Config::class);
-        $this->guzzleClient = di()->get(\GuzzleHttp\Client::class);
+        //        $this->request = Request::instance();
+        //        $this->response     = di()->get(Response::class);
+        //        $this->logger       = di()->get(Log::class);
+        //        $this->config       = di()->get(Config::class);
+        //        $this->guzzleClient = di()->get(\GuzzleHttp\Client::class);
         $this->redis        = Redis::connection();
 
-        self::$params    = $this->request->get() + $this->request->post();
+        self::$params    = Request::instance()->get() + Request::instance()->post();
         self::$className = get_called_class();
         if (isset(self::$params['token']) && Redis::connection()->get(stripslashes(self::$params['token']))) {
             self::$user = Redis::connection()->get(stripslashes(self::$params['token']));
