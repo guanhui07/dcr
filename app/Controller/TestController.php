@@ -9,7 +9,7 @@ use app\Service\Entity\ExchGiftInfo;
 use app\Service\Entity\TestEntity;
 use app\Service\TestService;
 use app\Utils\JwtToken;
-use app\Utils\Log;
+use app\Utils\LogBase;
 use Carbon\Carbon;
 use dcr\Facade\TestFacade;
 use Exception;
@@ -59,7 +59,8 @@ class TestController extends Controller
         // 测试carbon
         echo Carbon::now()->format('Y-m-d');
         // 测试 log
-        Log::info(2222);
+        LogBase::info(2222);
+        $this->logger->info(2222);
         // 测试 laravel orm包
         $allProject = DB::table('user')->where('id', '>', 1)
             ->orderBy('id', 'desc')->get();
@@ -201,8 +202,8 @@ class TestController extends Controller
             'uid'=>27,
             'name'=>'test',
         ]);
-        //        dd($token);
-        //        $token = '1813bef4c03caef6ec45380a7246d110';
+//        dd($token);
+//        $token = '1813bef4c03caef6ec45380a7246d110';
         $arr = JwtToken::decode($token);
         return apiResponse($arr);
     }

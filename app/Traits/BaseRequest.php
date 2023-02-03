@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace app\Traits;
 
-use app\Utils\Log;
+use app\Utils\LogBase;
 use app\Utils\Str;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +12,19 @@ use Qiniu\Storage\UploadManager;
 
 trait BaseRequest
 {
+    //只用来调试
+    public function log($v, $method = false): bool
+    {
+        if ( !$method) {
+            LogBase::info($v);
+        } else {
+            if (in_array($method, ['warning', 'error', 'info'])) {
+                LogBase::$method($v);
+            }
+        }
+        return true;
+    }
+
     protected function succResponse($response = [], $bool = false): bool|string
     {
         $exexute = 'json_encode';

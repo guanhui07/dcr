@@ -10,6 +10,7 @@ use app\Utils\Config;
 use app\Utils\Enviroment;
 use app\Utils\JwtToken;
 use app\Utils\Log;
+use app\Utils\LogBase;
 use app\Utils\Redis;
 use dcr\Request\Request;
 use dcr\Response\Response;
@@ -59,7 +60,7 @@ class Controller
         $this->request = Request::instance();
 
         $this->response     = di()->get(Response::class);
-        $this->logger       = new Log();
+        $this->logger       = di()->get(Log::class);
         $this->config       = di()->get(Config::class);
         $this->guzzleClient = di()->get(\GuzzleHttp\Client::class);
         $this->redis        = Redis::connection();

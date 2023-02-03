@@ -25,7 +25,7 @@ class MqController extends Controller
     {
         $queueParam = ['test' => 111];
         $producer   = new MqProducer();
-        $producer->publish($queueParam, 'test_pay', 1);
+        $producer->publish($queueParam, 'balance_pay', 1);
         return apiResponse([]);
     }
 
