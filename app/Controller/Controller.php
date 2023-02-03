@@ -6,11 +6,15 @@ use app\Middleware\Contract\MiddlewareInterface;
 use app\Middleware\Kernel;
 use app\Model\UserModel;
 use app\Traits\BaseRequest;
+use app\Utils\Config;
 use app\Utils\Enviroment;
+use app\Utils\JwtToken;
+use app\Utils\Log;
 use app\Utils\Redis;
 use dcr\Request\Request;
+use dcr\Response\Response;
 use Middlewares\Utils\Dispatcher;
-use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Predis\Client;
 
 class Controller
 {
@@ -26,10 +30,41 @@ class Controller
      */
     public $request;
 
+    /**
+     * @var Response|mixed
+     */
+    public $response;
+
+    /**
+     * @var Config|mixed
+     */
+    public $config;
+
+    /**
+     * @var \GuzzleHttp\Client|mixed
+     */
+    public $guzzleClient;
+
+    /**
+     * @var Client
+     */
+    public $redis;
+    /**
+     * @var Log
+     */
+    public $logger;
+
     public function __construct()
     {
-        $this->request   = Request::instance();
-        self::$params    = $this->request->get() + $this->request->post() ;
+        $this->request = Request::instance();
+
+        $this->response     = di()->get(Response::class);
+        $this->logger       = new Log();
+        $this->config       = di()->get(Config::class);
+        $this->guzzleClient = di()->get(\GuzzleHttp\Client::class);
+        $this->redis        = Redis::connection();
+
+        self::$params    = $this->request->get() + $this->request->post();
         self::$className = get_called_class();
         if (isset(self::$params['token']) && Redis::connection()->get(stripslashes(self::$params['token']))) {
             self::$user = Redis::connection()->get(stripslashes(self::$params['token']));
@@ -53,7 +88,7 @@ class Controller
             $obj   = (new $class);
             $arr[] = $obj->handle();
         }
-        try{
+        try {
             Dispatcher::run($arr + [
                     function ($request, $next) {
                         //                echo 'from middleware';die;
@@ -61,16 +96,21 @@ class Controller
                         return $response;
                     },
                 ]);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             throw $e;
         }
-
-
     }
 
     // 初始化
     protected function init()
     {
+        $token = $_GET['token'] ?? '';
+        if ($token) {
+            $user_arr = JwtToken::decode($token);
+            if (isset($user_arr['id'])) {
+                $this->uid = $user_arr['id'];
+            }
+        }
         if (Enviroment::isRoyeeDev()) {
             // self::$user['id'] = 11211;
             self::$user['id'] = 11211;
@@ -102,6 +142,11 @@ class Controller
         return UserModel::query()->find($this->getUserId());
     }
 
+    public function debugSql()
+    {
+        echo UserModel::getLastSql();
+        return;
+    }
 }
 
 
