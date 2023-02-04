@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Controller;
 
@@ -11,6 +16,7 @@ use app\Service\TestService;
 use app\Utils\JwtToken;
 use app\Utils\LogBase;
 use Carbon\Carbon;
+use dcr\Annotation\Mapping\RequestMapping;
 use dcr\Facade\TestFacade;
 use DI\Attribute\Inject;
 use Exception;
@@ -39,15 +45,15 @@ class TestController extends Controller
     public function __construct(TestService $s)
     {
         parent::__construct();
-        //        $this->testService = $s;
-        $this->middleware(TestMiddleware::$name);
+//        $this->testService = $s;
+        $this->middleware(TestMiddleware::class);
     }
 
     /**
      * 测试 log carbon collect model redis 依赖注入
      * 测试 facade
-     *  http://127.0.0.1:8001/?r=test/test2
      */
+    #[RequestMapping(methods: 'GET , POST', path:'/test/test2')]
     public function test2()
     {
         // 测试 request
@@ -85,9 +91,9 @@ class TestController extends Controller
 
     /**
      * 测试guzzle
-     * http://127.0.0.1:8001/?r=test/test3
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
+    #[RequestMapping(methods: 'GET , POST', path:'/test/test3')]
     public function test3()
     {
         $client   = new Client();
@@ -96,13 +102,13 @@ class TestController extends Controller
         //        echo $response->getStatusCode(); // 200
         //        echo $response->getHeaderLine('content-type'); // 'application/json; charset=utf8'
         return $response->getBody(); // '{"id": 1420053, "name": "guzzle", ...}'
-
     }
 
     /**
      * 测试Validate
      * @see https://github.com/inhere/php-validate
      */
+    #[RequestMapping(methods: 'GET , POST', path:'/test/test4')]
     public function test4()
     {
         $v = Validation::check($_POST, [
@@ -126,6 +132,7 @@ class TestController extends Controller
      * 测试事件
      * @see  https://github.com/inhere/php-event-manager
      */
+    #[RequestMapping(methods: 'GET , POST', path:'/test/event')]
     public function event()
     {
         $test = request()->get('aa', 23);
@@ -144,17 +151,18 @@ class TestController extends Controller
     /**
      * 测试 dto
      */
+    #[RequestMapping(methods: 'GET , POST', path:'/test/dto')]
     public function dto()
     {
         arrayToEntity([
-            "msg" => "dsfdf",
-            "user_id" => 222,
+            'msg' => 'dsfdf',
+            'user_id' => 222,
 
         ], new TestEntity());
 
         $settleConfig = new TestEntity([
-            "msg" => "dsfdf",
-            "user_id" => 222,
+            'msg' => 'dsfdf',
+            'user_id' => 222,
             'gift' => new ExchGiftInfo([
                 'id' => 1,
                 'name' => 'test',
@@ -172,7 +180,7 @@ class TestController extends Controller
      * 验证码
      * @see https://github.com/Gregwar/Captcha
      */
-    public function captcha()
+    public function captcha(): void
     {
         $builder = new CaptchaBuilder;
         $builder->build();
@@ -182,7 +190,6 @@ class TestController extends Controller
         header('Content-type: image/jpeg');
         $builder->output();
     }
-
 
     /**
      * 缩略图
@@ -199,16 +206,16 @@ class TestController extends Controller
         return $this->uploadByQiniuGetUri($image);
     }
 
+    #[RequestMapping(methods: 'GET , POST', path:'/test/token')]
     public function token()
     {
         $token = JwtToken::encode([
             'uid'=>27,
             'name'=>'test',
         ]);
-        //        dd($token);
-        //        $token = '1813bef4c03caef6ec45380a7246d110';
+//        dd($token);
+//        $token = '1813bef4c03caef6ec45380a7246d110';
         $arr = JwtToken::decode($token);
         return apiResponse($arr);
     }
 }
-

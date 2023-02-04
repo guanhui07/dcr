@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace dcr;
 
@@ -17,7 +22,7 @@ class Facade
 
     public static function instance(): \DI\Container
     {
-        if ( !self::$ins) {
+        if (!self::$ins) {
             $container = Container::instance();
             FacadeFactory::setContainer($container);
             self::$ins = $container;

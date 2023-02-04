@@ -8,7 +8,7 @@ require __DIR__.'/vendor/autoload.php';
 use dcr\Boostrap;
 use dcr\CommandBootstrap;
 use dcr\Container;
-
+define('PROJECT_ROOT', (__DIR__).'/');
 $time = set_time_limit(0);
 $container = Container::instance();
 

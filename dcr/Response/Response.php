@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace dcr\Response;
 
@@ -19,7 +24,7 @@ class Response
 
     public static function instance(): SymfonyResponse
     {
-        if ( !self::$ins) {
+        if (!self::$ins) {
             $ins       = new SymfonyResponse;
             self::$ins = $ins;
             return self::$ins;

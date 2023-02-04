@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace dcr;
 
@@ -22,7 +27,7 @@ class EventInstance
      */
     public static function instance()
     {
-        if ( !self::$ins) {
+        if (!self::$ins) {
             $ins       = new EventManager;
             self::$ins = $ins;
             return self::$ins;

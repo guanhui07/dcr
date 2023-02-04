@@ -42,7 +42,7 @@ $config = [
     ],
 ];
 
-
+define('PROJECT_ROOT', (__DIR__).'/');
 $container = Container::instance();
 
 // 初始化 注册 config env  db orm  facade门面

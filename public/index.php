@@ -7,6 +7,7 @@ use dcr\Boostrap;
 use dcr\Container;
 use dcr\HttpKernel;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+define('PROJECT_ROOT', dirname(__DIR__).'/');
 
 $container = Container::instance();
 

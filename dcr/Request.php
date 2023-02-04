@@ -1,7 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace dcr;
-
 
 use dcr\Exception\DcrException;
 use Exception;
@@ -12,22 +16,31 @@ use Exception;
  */
 class Request
 {
-
-    private $_type = "fpm";
+    private $_type = 'fpm';
 
     private $_post = [];
+
     private $_get = [];
+
     private $_server = [];
+
     private $_cookie = [];
+
     private $_file = [];
+
     private $_header = [];
-    private $_controller_name = "";
-    private $_controller_action = "";
+
+    private $_controller_name = '';
+
+    private $_controller_action = '';
 
     //case insensitive key map
     private $_post_map = [];
+
     private $_get_map = [];
+
     private $_cookie_map = [];
+
     private $_file_map = [];
 
     /**
@@ -35,11 +48,11 @@ class Request
      * @param string $type 可选项fpm,swoole_http
      * @throws Exception
      */
-    public function __construct($type = "fpm")
+    public function __construct($type = 'fpm')
     {
         $this->_type = "$type";
 
-        if ($type === "fpm") {
+        if ($type === 'fpm') {
             $this->_post = $_POST ?? [];
             $this->_post_map = array_change_key_case($this->_post, CASE_UPPER);
 
@@ -74,7 +87,7 @@ class Request
      * @param string $filter 数据过滤 可选 html/string/special/url/email/float/int 不填直接返回
      * @return array|mixed|string
      */
-    public function post($name = "", $default = "", $filter = "")
+    public function post($name = '', $default = '', $filter = '')
     {
         if ($name === '') {
             return $this->_post;
@@ -96,7 +109,7 @@ class Request
      * @param string $filter 数据过滤 可选 html/string/special/url/email/float/int 不填直接返回
      * @return array|mixed|string
      */
-    public function get($name = "", $default = "", $filter = "")
+    public function get($name = '', $default = '', $filter = '')
     {
         if ($name === '') {
             return $this->_get;
@@ -118,19 +131,19 @@ class Request
      * @param string $filter 数据过滤 可选 html/string/special/url/email/float/int 不填直接返回
      * @return null|int|string 失败返回null
      */
-    public function getParam($key, $default = "", $filter = "")
+    public function getParam($key, $default = '', $filter = '')
     {
         //key没传递，返回false
-        if ($key === "") {
+        if ($key === '') {
             return null;
         }
 
-        $result = $this->post($key, "", $filter);
-        if ($result === "" || $result === null) {
-            $result = $this->get($key, "", $filter);
+        $result = $this->post($key, '', $filter);
+        if ($result === '' || $result === null) {
+            $result = $this->get($key, '', $filter);
         }
 
-        if ($result === "" || $result === null) {
+        if ($result === '' || $result === null) {
             return $default;
         }
 
@@ -160,7 +173,7 @@ class Request
      * @param string $filter 数据过滤 可选 html/string/special/url/email/float/int 不填直接返回
      * @return array|mixed|null
      */
-    public function request($name = "", $default = null, $filter = "")
+    public function request($name = '', $default = null, $filter = '')
     {
         if ($name === '') {
             return array_merge($this->_get, $this->_post);
@@ -198,28 +211,27 @@ class Request
      * @param string $type 可选 html/string/special/url/email/float/int 不填直接返回
      * @return string
      */
-    public function filter($data, $type = "html")
+    public function filter($data, $type = 'html')
     {
-        $type = strtolower($type . "");
+        $type = strtolower($type . '');
 
         switch ($type) {
-            case "special":
+            case 'special':
                 return Filter::filterSpecialChars($data);
-            case "string":
+            case 'string':
                 return Filter::filterString($data);
-            case "url":
+            case 'url':
                 return Filter::filterUrl($data);
-            case "email":
+            case 'email':
                 return Filter::filterEmail($data);
-            case "float":
+            case 'float':
                 return Filter::filterFloat($data);
-            case "int":
+            case 'int':
                 return Filter::filterInt($data);
             default:
                 return $data;
         }
     }
-
 
     /**
      * 用户可以更改get传入参数内容
@@ -227,7 +239,7 @@ class Request
      * @param $get
      * @param string $name
      */
-    public function setQueryString($get, $name = '')
+    public function setQueryString($get, $name = ''): void
     {
         if ($name === '') {
             $this->_get = $get;
@@ -244,7 +256,7 @@ class Request
      * @param $post
      * @param string $name
      */
-    public function setPost($post, $name = '')
+    public function setPost($post, $name = ''): void
     {
         if ($name === '') {
             $this->_post = $post;
@@ -260,7 +272,7 @@ class Request
      * @param string $name
      * @return array|mixed|string
      */
-    public function server($name = "")
+    public function server($name = '')
     {
         if ($name === '') {
             return $this->_server;
@@ -280,7 +292,7 @@ class Request
      * @param string $name
      * @return array|mixed|string
      */
-    public function cookie($name = "")
+    public function cookie($name = '')
     {
         if ($name === '') {
             return $this->_cookie;
@@ -300,7 +312,7 @@ class Request
      * @param string $name
      * @return array|mixed|string
      */
-    public function file($name = "")
+    public function file($name = '')
     {
         if ($name === '') {
             return $this->_file;
@@ -322,11 +334,11 @@ class Request
      */
     public function getRaw()
     {
-        if ($this->_type === "fpm") {
-            return file_get_contents("php://input");
+        if ($this->_type === 'fpm') {
+            return file_get_contents('php://input');
         }
 
-        throw new Exception("未知request类型", 12);
+        throw new Exception('未知request类型', 12);
     }
 
     /**
@@ -334,7 +346,7 @@ class Request
      * @param string $name
      * @return array|mixed|string
      */
-    public function header($name = "")
+    public function header($name = '')
     {
         if ($name === '') {
             return $this->_header;
@@ -355,7 +367,7 @@ class Request
      * @param string $controllerName controller带namespace完整路径
      * @param string $action 目标调用action
      */
-    public function setController($controllerName, $action)
+    public function setController($controllerName, $action): void
     {
         if (!class_exists($controllerName) || !method_exists($controllerName, $action)) {
             throw new DcrException("controller set class $controllerName::$action not exist", -7001);
@@ -371,8 +383,8 @@ class Request
     public function getController()
     {
         return [
-            "controller" => $this->_controller_name,
-            "action" => $this->_controller_action,
+            'controller' => $this->_controller_name,
+            'action' => $this->_controller_action,
         ];
     }
 
@@ -382,7 +394,7 @@ class Request
      */
     public function getMethod()
     {
-        return strtoupper($this->server("REQUEST_METHOD"));
+        return strtoupper($this->server('REQUEST_METHOD'));
     }
 
     /**
@@ -392,7 +404,7 @@ class Request
      */
     public function isAjax()
     {
-        return $this->header("X-Requested-With") === "XMLHttpRequest";
+        return $this->header('X-Requested-With') === 'XMLHttpRequest';
     }
 
     /**

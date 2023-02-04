@@ -1,15 +1,24 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace dcr;
 
+use app\Middleware\Contract\MiddlewareInterface;
+use app\Middleware\Kernel;
 use app\Utils\Json;
+use dcr\Route\Route;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
+use function array_reverse;
 
 /**
  * Http路由
@@ -17,6 +26,8 @@ use function FastRoute\simpleDispatcher;
  */
 class HttpKernel
 {
+    public static $uriToMiddlewares = [];
+
     /**
      * @param $container \DI\Container
      *
@@ -61,11 +72,11 @@ class HttpKernel
         $controller = ucfirst(array_shift($routerArr)).'Controller';
         $action     = array_pop($routerArr);
         $class_name = 'app\\controller\\'.$controller;
-        if ( !file_exists(PROJECT_ROOT.'./app/controller/'.$controller.'.php') || !class_exists($class_name)) {
+        if (!file_exists(PROJECT_ROOT.'./app/controller/'.$controller.'.php') || !class_exists($class_name)) {
             return false;
         }
 
-        try{
+        try {
             //    $o = new $class_name();
 
             // 实例化器能够创建任何类的新实例，而无需使用类本身的构造函数或任何 API：
@@ -85,11 +96,48 @@ class HttpKernel
             } else {
                 return (Json::encode(['status' => 10010, 'msg' => 'action error']));
             }
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
 
         return $routerArr;
+    }
+
+    public function doMiddleWares($uri = null): void
+    {
+        try {
+            if ($uri) {
+                $route_middlewares = array_reverse(self::$uriToMiddlewares[$uri]);
+                //                var_dump($route_middlewares);
+                foreach ($route_middlewares as $class_name) {
+                    $this->middleware($class_name);
+                }
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function middleware($middleware): void
+    {
+        $middlewares = Kernel::getMiddlewares();
+        $arr = [];
+
+        foreach ((array)$middleware as $m) {
+            /** @var MiddlewareInterface $obj */
+            $class = $middlewares[$m];
+            $obj = (new $class());
+            $arr[] = $obj->handle();
+        }
+        try {
+            \Middlewares\Utils\Dispatcher::run($arr + [
+                    function ($request, $next) {
+                        return $next->handle($request);
+                    },
+                ]);
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -102,11 +150,18 @@ class HttpKernel
      */
     protected function restfulRoute($container)
     {
-        $routes = require(PROJECT_ROOT.'routes/api.php');
-
-        $routeCollectorGenerator = function (RouteCollector $r) use ($routes) {
-            foreach ($routes as $route) {
-                $r->addRoute($route[0], $route[1], $route[2]);
+        require(PROJECT_ROOT.'routes/api.php');
+        $annotations = Router::getRoutes();
+        $routeCollectorGenerator = function (RouteCollector $routerCollector) use ($annotations): void {
+//            foreach ($routes as $route) {
+//                $routerCollector->addRoute($route[0], $route[1], $route[2]);
+//            }
+            foreach ($annotations as $routerDefine) {
+                /** @var Route $routerDefine */
+                $routerCollector->addRoute($routerDefine->getMethods(), $routerDefine->getPath(), $routerDefine->getCallback());
+                //                        $routerCollector->addRoute($routerDefine[0], $routerDefine[1], $routerDefine[2]);
+                //                        var_dump($routerDefine->getPath(),$routerDefine->getMiddleware());
+                self::$uriToMiddlewares[$routerDefine->getPath()] = $routerDefine->getMiddleware();
             }
         };
 
@@ -129,26 +184,32 @@ class HttpKernel
             case Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $routeInfo[1];
                 return (Json::encode(['status' => 10010, 'msg' => 'route method not allow,'.$allowedMethods.' method is allow']));
-            // 调用$handler和$vars*
+                // 调用$handler和$vars*
             case Dispatcher::FOUND:
-                try{
+                try {
+                    $this->doMiddleWares($uri);
                     if (is_object($routeInfo[1])) {
                         $handler = $routeInfo[1];
                         $str     = $handler();
                         return $str;
                     }
+                    if (is_array($routeInfo[1])) {
+                        $routeInfo[1] = implode('@', $routeInfo[1]);
+                    }
+                    $handler = explode('@', $routeInfo[1]);
+                    $className = $handler[0];
+                    $method = $func = $handler[1];
 
                     //                $controller = new $routeInfo[1][0];
                     //                $instantiator = new \Doctrine\Instantiator\Instantiator();
                     //                $controller = $instantiator->instantiate($routeInfo[1][0]);
-                    $method = $routeInfo[1][1];
+//                    $method = $routeInfo[1][1];
                     //                $controller->$method();
-                    $str = $container->get($routeInfo[1][0])->$method();
+                    $str = $container->get($className)->$method();
                     return $str;
-                }catch(Exception $e){
+                } catch(Exception $e) {
                     return $e->getMessage();
                 }
-
         }
         return '';
     }

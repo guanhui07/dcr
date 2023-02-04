@@ -13,7 +13,7 @@ use GatewayWorker\Gateway;
 use GatewayWorker\Register;
 use Workerman\Worker;
 
-
+define('PROJECT_ROOT', dirname(__DIR__).'/');
 
 /**
  * Class startWs

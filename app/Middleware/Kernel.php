@@ -13,8 +13,8 @@ class Kernel
     public static function getMiddlewares(): array
     {
         return [
-            TestMiddleware::$name => TestMiddleware::class,
-            AuthMiddleware::$name => AuthMiddleware::class,
+            TestMiddleware::class => TestMiddleware::class,
+            AuthMiddleware::class => AuthMiddleware::class,
         ];
     }
 }

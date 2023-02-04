@@ -9,6 +9,7 @@ use dcr\Container;
 use Workerman\Crontab\Crontab as WmCrontab;
 use Workerman\Worker;
 
+define('PROJECT_ROOT', dirname(__DIR__).'/');
 /**
  * @see https://github.com/walkor/crontab
  * Class Crontab

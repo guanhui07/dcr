@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace dcr;
 
@@ -17,9 +22,13 @@ class Boostrap
 {
     public function run(): void
     {
-        header("Content-type: text/html; charset=utf-8");
-        define('PROJECT_ROOT', dirname(__DIR__).'/');
+        Router::load([PROJECT_ROOT.'routes']);
+        //注解路由 add route
+        require_once(PROJECT_ROOT.'dcr/Annotation/route.php');
+
+        header('Content-type: text/html; charset=utf-8');
         $this->loadDotEnv();
+        \dcr\Router::load(PROJECT_ROOT.'routes');
 
         $config = Config::get('app');
         define('DEBUG', $config['debug']); // online set false
@@ -97,5 +106,4 @@ class Boostrap
             $eventManager->addEventSubscriber(new $listeners());
         }
     }
-
 }

@@ -648,4 +648,8 @@ if (! function_exists('str_random')) {
     }
 }
 
+function base_path()
+{
+    return PROJECT_ROOT;
+}
 

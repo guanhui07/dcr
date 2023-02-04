@@ -1,10 +1,16 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace dcr\Request;
 
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use dcr\Request as DcrRequest;
+
 /**
  * Class Request
  * @package dcr\Request
@@ -18,7 +24,7 @@ class Request
 
     public static function instance()
     {
-        if ( !self::$ins) {
+        if (!self::$ins) {
 //            $ins       = SymfonyRequest::createFromGlobals();
             $ins       = new DcrRequest;
             self::$ins = $ins;

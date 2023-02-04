@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace dcr;
 
@@ -24,7 +29,7 @@ class Container
      */
     public static function instance(): \DI\Container
     {
-        if ( !self::$ins) {
+        if (!self::$ins) {
             $containerBuilder = new ContainerBuilder;
             //            $configs = require('../config/app.php');
             //            $containerBuilder->addDefinitions(__DIR__ . '/config.php');

@@ -1,15 +1,22 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
+
 namespace dcr;
 
-class Filter {
-
+class Filter
+{
     /**
      * 过滤字符串,特殊字符转义，规范配对tag
      * @param string $string 输入string
      * @param int $flag 附加选项flat
      * @return mixed 过滤结果
      */
-    public static function filterString($string, $flag = null) {
+    public static function filterString($string, $flag = null)
+    {
         return filter_var($string, FILTER_SANITIZE_STRING, $flag);
     }
 
@@ -19,7 +26,8 @@ class Filter {
      * @param int $flag 附加选项flat
      * @return mixed 过滤结果
      */
-    public static function filterSpecialChars($string, $flag = null) {
+    public static function filterSpecialChars($string, $flag = null)
+    {
         return filter_var($string, FILTER_SANITIZE_SPECIAL_CHARS, $flag);
     }
 
@@ -28,7 +36,8 @@ class Filter {
      * @param string $url
      * @return mixed
      */
-    public static function filterUrl($url) {
+    public static function filterUrl($url)
+    {
         return filter_var($url, FILTER_SANITIZE_URL);
     }
 
@@ -36,7 +45,8 @@ class Filter {
      * 过滤email地址中非法字符
      * @param string $email
      */
-    public static function filterEmail($email) {
+    public static function filterEmail($email)
+    {
         return filter_var($email, FILTER_SANITIZE_EMAIL);
     }
 
@@ -48,7 +58,6 @@ class Filter {
     {
         return (float)$float;
     }
-
 
     /**
      * 过滤成int

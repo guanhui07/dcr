@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Controller;
 
@@ -10,14 +15,13 @@ use app\Utils\Config;
 use app\Utils\Enviroment;
 use app\Utils\JwtToken;
 use app\Utils\Log;
-use app\Utils\LogBase;
 use app\Utils\Redis;
 use dcr\Request as DcrRequest;
 use dcr\Request\Request;
 use dcr\Response\Response;
 use DI\Attribute\Inject;
 use Middlewares\Utils\Dispatcher;
-use Predis\Client;
+use Exception;
 
 class Controller
 {
@@ -26,6 +30,7 @@ class Controller
     public static false|string $className = '';
 
     public static null|array|string $user   = []; // 用户token信息
+
     public static array             $params = [];
 
     #[Inject]
@@ -36,6 +41,7 @@ class Controller
 
     #[Inject]
     public Config $config;
+
     #[Inject]
     public \GuzzleHttp\Client $guzzleClient;
 
@@ -46,11 +52,11 @@ class Controller
 
     public function __construct()
     {
-        //        $this->request = Request::instance();
-        //        $this->response     = di()->get(Response::class);
-        //        $this->logger       = di()->get(Log::class);
-        //        $this->config       = di()->get(Config::class);
-        //        $this->guzzleClient = di()->get(\GuzzleHttp\Client::class);
+//        $this->request = Request::instance();
+//        $this->response     = di()->get(Response::class);
+//        $this->logger       = di()->get(Log::class);
+//        $this->config       = di()->get(Config::class);
+//        $this->guzzleClient = di()->get(\GuzzleHttp\Client::class);
         $this->redis        = Redis::connection();
 
         self::$params    = Request::instance()->get() + Request::instance()->post();
@@ -66,7 +72,7 @@ class Controller
      *
      * @see https://github.com/middlewares/utils
      */
-    public function middleware($middleware)
+    public function middleware($middleware): void
     {
         $middlewares = Kernel::getMiddlewares();
         $arr         = [];
@@ -85,7 +91,7 @@ class Controller
                         return $response;
                     },
                 ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw $e;
         }
     }
@@ -115,7 +121,7 @@ class Controller
             return true;
         }
 
-        if ( !isset(self::$user['id'])) {
+        if (!isset(self::$user['id'])) {
             return error('您还未登录，请先登录');
         }
         return true;
@@ -131,16 +137,9 @@ class Controller
         return UserModel::query()->find($this->getUserId());
     }
 
-    public function debugSql()
+    public function debugSql(): void
     {
         echo UserModel::getLastSql();
         return;
     }
 }
-
-
-
-
-
-
-

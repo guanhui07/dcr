@@ -9,6 +9,8 @@ use dcr\HttpKernel;
 use Workerman\Worker;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
+define('PROJECT_ROOT', dirname(__DIR__).'/');
+
 /**
  * @see https://github.com/guanhui07/blog/issues/818
  */
