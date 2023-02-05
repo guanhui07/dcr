@@ -15,12 +15,11 @@ class TestMiddleware implements MiddlewareInterface
 {
     public static string $name = 'test1';
 
-    public function handle()
+    public function handle(): \Closure
     {
         return static function ($request, $next) {
 //            throw new RuntimeException('未登录');
-            $response = $next->handle($request);
-            return $response;
+            return $next->handle($request);
         };
     }
 

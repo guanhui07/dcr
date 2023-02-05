@@ -13,7 +13,6 @@ use GatewayClient\Gateway;
 
 /**
  * Class Socket
- * @package app\Utils
  * @see https://www.workerman.net/doc/gateway-worker/on-worker-start.html
  */
 class Socket

@@ -54,7 +54,7 @@ class TestController extends Controller
      * 测试 facade
      */
     #[RequestMapping(methods: 'GET , POST', path:'/test/test2')]
-    public function test2()
+    public function test2(): string
     {
         // 测试 request
         $test = $this->request->get('name', 'zhangsan');
@@ -109,7 +109,7 @@ class TestController extends Controller
      * @see https://github.com/inhere/php-validate
      */
     #[RequestMapping(methods: 'GET , POST', path:'/test/test4')]
-    public function test4()
+    public function test4(): string
     {
         $v = Validation::check($_POST, [
             // add rule
@@ -133,7 +133,7 @@ class TestController extends Controller
      * @see  https://github.com/inhere/php-event-manager
      */
     #[RequestMapping(methods: 'GET , POST', path:'/test/event')]
-    public function event()
+    public function event(): string
     {
         $test = request()->get('aa', 23);
         $test = $this->request->get('ab', 24);
@@ -171,7 +171,7 @@ class TestController extends Controller
         return $this->dtoParam($settleConfig);
     }
 
-    protected function dtoParam(TestEntity $testEntity)
+    protected function dtoParam(TestEntity $testEntity): int
     {
         return $testEntity->gift->id;
     }
@@ -198,7 +198,7 @@ class TestController extends Controller
      * 需要安装 https://pecl.php.net/package/imagick 扩展
      * @throws Exception
      */
-    public function thump()
+    public function thump(): bool|string
     {
         $manager = new ImageManager(['driver' => 'imagick']);
         $image = $manager->make('public/image/test.jpg')->resize(300, 200);
@@ -207,15 +207,15 @@ class TestController extends Controller
     }
 
     #[RequestMapping(methods: 'GET , POST', path:'/test/token')]
-    public function token()
+    public function token(): string
     {
-        $token = JwtToken::encode([
+        $token = di()->get(JwtToken::class)->encode([
             'uid'=>27,
             'name'=>'test',
         ]);
 //        dd($token);
 //        $token = '1813bef4c03caef6ec45380a7246d110';
-        $arr = JwtToken::decode($token);
+        $arr = di()->get(JwtToken::class)->decode($token);
         return apiResponse($arr);
     }
 }

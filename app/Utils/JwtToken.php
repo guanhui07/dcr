@@ -1,8 +1,6 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 /**
  * The file is part of xxx/xxx
- *
- *
  */
 
 namespace app\Utils;
@@ -18,11 +16,11 @@ class JwtToken
 
     public const JWT_SEC_KEY = 'ranndom_Key_$888';
 
-    public static float|int $expire_token_time = 60 * 60; //min
+    public int $expire_token_time = 60 * 60;
 
-    public static function getTokenOriTime()
+    public function getTokenOriTime(): int
     {
-        return self::$expire_token_time;
+        return $this->expire_token_time;
     }
 
     /**
@@ -30,7 +28,7 @@ class JwtToken
      *
      * @return string
      */
-    public static function encode(array $data): string
+    public function encode(array $data): string
     {
         $key = self::JWT_SEC_KEY;
         //JWT::$leeway = 60; //seconds
@@ -39,7 +37,7 @@ class JwtToken
         $jwt_token_cache_key = md5($jwt_token.time().str_random(10));
         $data['jwt_token']   = $jwt_token;
 
-        Cache::set($jwt_token_cache_key, $data, self::$expire_token_time);
+        Cache::set($jwt_token_cache_key, $data, $this->expire_token_time);
         return $jwt_token_cache_key;
     }
 
@@ -48,12 +46,12 @@ class JwtToken
      *
      * @return array
      */
-    public static function decode(string $token): array
+    public function decode(string $token): array
     {
         $key          = self::JWT_SEC_KEY;
         $cache_exists = Cache::get($token);
 
-        if (!$cache_exists) {
+        if ( !$cache_exists) {
             return [];
         }
         $token = $cache_exists['jwt_token'];
@@ -68,13 +66,13 @@ class JwtToken
         return $decoded;
     }
 
-    public static function refresh(string $token)
+    public function refresh(string $token): bool|string
     {
         $key          = self::JWT_SEC_KEY;
         $new_token    = '';
         $cache_exists = Cache::get($token);
 
-        if (!$cache_exists) {
+        if ( !$cache_exists) {
             return false;
         }
         $token = $cache_exists['jwt_token'];
@@ -85,36 +83,36 @@ class JwtToken
             return false;
         }
         if ($decoded) {
-            $new_token = self::encode($decoded);
+            $new_token = $this->encode($decoded);
         }
         return $new_token;
     }
 
     //存活时间
-    public static function ttlToken(string $token)
+    public function ttlToken(string $token): int
     {
         $prefix = config('cache.prefix').':';
         $ret    = Redis::connection()->ttl($prefix.$token);
-        if ($ret == -2) {
+        if ($ret === -2) {
             $ret = 0;
         }
         return $ret; //ttl 秒
     }
 
     //延长时间
-    public static function expireToken(string $token, $ttl = 600)
+    public function expireToken(string $token, $ttl = 600): int
     {
         $prefix = config('cache.prefix').':';
         return Redis::connection()->expire($prefix.$token, $ttl);
     }
 
-    public static function delete($token): bool
+    public function delete($token): int
     {
         return Cache::delete($token);
     }
 
     //test
-    public function test()
+    public function test(): bool
     {
         $key   = self::JWT_SEC_KEY;
         $token = [

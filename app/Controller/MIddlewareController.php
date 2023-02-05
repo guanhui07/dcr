@@ -26,7 +26,7 @@ class MIddlewareController extends Controller
 
     #[RequestMapping(methods: 'GET , POST', path:'/test/middleware')]
     #[Middlewares(AuthMiddleware::class, TestMiddleware::class)]
-    public function test1()
+    public function test1(): string
     {
 //        $this->testService->testDi();
         return apiResponse([]);

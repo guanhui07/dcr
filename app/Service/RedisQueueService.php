@@ -17,7 +17,7 @@ use app\Utils\Redis;
  */
 class RedisQueueService
 {
-    public static function push(string $key, $data = [])
+    public static function push(string $key, $data = []): int
     {
         $handler = Redis::connection();
         if (is_array($data)) {

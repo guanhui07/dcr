@@ -36,7 +36,7 @@ class Config
      *
      * @return bool|mixed
      */
-    protected static function dealArr(mixed $arr)
+    protected static function dealArr(mixed $arr): mixed
     {
         if (!is_array($arr)) {
             switch (strtolower($arr)) {

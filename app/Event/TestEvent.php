@@ -29,7 +29,7 @@ final class TestEvent
     public bool $preFooInvoked = false;
 
     /** @var bool */
-    public $postFooInvoked = false;
+    public bool $postFooInvoked = false;
 
     public function __construct(EventManager $eventManager)
     {

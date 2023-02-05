@@ -15,7 +15,7 @@ class AuthMiddleware implements MiddlewareInterface
 {
     public static string $name = 'auth';
 
-    public function handle()
+    public function handle(): \Closure
     {
         return static function ($request, $next) {
             //            if($isNotLogin){

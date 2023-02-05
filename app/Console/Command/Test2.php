@@ -8,16 +8,15 @@ declare(strict_types = 1);
 
 namespace app\Console\Command;
 
+use Inhere\Console\Command;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Toolkit\PFlag\FlagsParser;
 
 /**
- * Class Test2
- * @package app\Console\Command
  * php artisan test2
  */
-class Test2 extends \Inhere\Console\Command
+class Test2 extends Command
 {
     protected static string $name = 'test2';
 

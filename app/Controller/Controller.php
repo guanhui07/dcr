@@ -97,11 +97,11 @@ class Controller
     }
 
     // 初始化
-    protected function init()
+    protected function init(): bool
     {
         $token = $_GET['token'] ?? '';
         if ($token) {
-            $user_arr = JwtToken::decode($token);
+            $user_arr = di()->get(JwtToken::class)->decode($token);
             if (isset($user_arr['id'])) {
                 $this->uid = $user_arr['id'];
             }
@@ -113,7 +113,7 @@ class Controller
         return true;
     }
 
-    public function checkLogin()
+    public function checkLogin(): bool|string
     {
         if (Enviroment::isRoyeeDev()) {
             //self::$user['id'] = 11211;
@@ -132,7 +132,7 @@ class Controller
         return self::$user['id'] ?? 0;
     }
 
-    public function getUser()
+    public function getUser(): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
         return UserModel::query()->find($this->getUserId());
     }

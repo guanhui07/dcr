@@ -13,8 +13,6 @@ use Guanhui07\Facade\AbstractFacade;
 
 /**
  * 门面
- * Class TestFacade
- * @package dcr\Facade
  * @see https://github.com/guanhui07/facade
  */
 class TestFacade extends AbstractFacade

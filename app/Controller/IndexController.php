@@ -27,7 +27,7 @@ class IndexController extends Controller
      * @throws Exception
      */
     #[RequestMapping(methods: 'GET , POST', path:'/')]
-    public function test1()
+    public function test1(): bool|string
     {
         return apiResponse('hello world');
     }

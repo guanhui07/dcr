@@ -188,7 +188,7 @@ function apiResponse($data, $msg = 'sucess')
         'code' => 0,
         'data' => $data,
     ];
-    return json_encode($ret);
+    return Json::encode($ret);
 }
 
 
@@ -199,7 +199,7 @@ function apiResponseError($msg = 'error', $code = 11211, $data = [])
         'msg' => $msg,
         'data' => $data,
     ];
-    return json_encode($ret);
+    return Json::encode($ret);
 }
 
 

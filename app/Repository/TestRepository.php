@@ -19,7 +19,7 @@ class TestRepository
         echo 'test Di';
     }
 
-    public function test1()
+    public function test1(): \Illuminate\Support\Collection
     {
         $allProject = DB::table('airdrop_log_detail')->where('id', '>', 1)
             ->orderBy('id', 'desc')->get();

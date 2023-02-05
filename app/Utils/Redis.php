@@ -12,12 +12,11 @@ use Predis\Client;
 
 /**
  * Class Redis
- * @package app\Ext
  * @see https://github.com/predis/predis
  */
 class Redis
 {
-    public static function connection()
+    public static function connection(): Client
     {
         return new Client('tcp://127.0.0.1:6379');
     }
