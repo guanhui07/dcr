@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Console;
 
@@ -8,7 +13,7 @@ use dcr\Container;
 
 //use Illuminate\Console\Command;
 
- class BaseCommand
+class BaseCommand
 {
     public function __construct()
     {
@@ -19,12 +24,8 @@ use dcr\Container;
         $bootstrap->run();
     }
 
-     public function handle()
+     public function handle(): void
      {
          // TODO: Implement handle() method.
      }
- }
-
-
-
-
+}

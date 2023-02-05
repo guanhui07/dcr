@@ -1,10 +1,14 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Service\Consumer;
 
 use app\Model\UserModel;
-use app\Service\RedisQueueService;
 use app\Utils\Json;
 use app\Utils\Mq\MqConsumer;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -16,23 +20,25 @@ use PhpAmqpLib\Message\AMQPMessage;
 class BalancePayConsumer extends MqConsumer implements BaseConsumerInterface
 {
     public static array $user   = [];
+
     public static array $params = [];
-    public string       $desc   = 'test_pay消费者';
+
+    public string       $desc   = 'balance_pay消费者';
+
     //模块
-    public $module = 'test_pay';
+    public $module = 'balance_pay';
 
     public function __construct()
     {
         echo $this->desc.PHP_EOL;
     }
 
-
     /**
      * 消息处理
      * 模板方法模式
      * @param  $msg AMQPMessage
      */
-    public function msgProc($msg)
+    public function msgProc($msg): void
     {
         echo $msg->body.PHP_EOL;
         $data = Json::decode($msg->body, true);
@@ -62,7 +68,7 @@ class BalancePayConsumer extends MqConsumer implements BaseConsumerInterface
 
         $returnMessage = '恭喜您！购买成功，由于人数较多，请等待xx';
         $userInfo  = UserModel::query()->where('id', $params['goods_id'])->where('status', 0)->first();
-        if ( !$userInfo) {
+        if (!$userInfo) {
             $retError = errorx('不存在的xx信息，请重试') + ['module' => $this->module];
             return socketSend(self::$user['id'], $retError);
         }

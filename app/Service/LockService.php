@@ -1,6 +1,11 @@
 <?php
 
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Service;
 
@@ -17,8 +22,8 @@ class LockService
     public function run(string $key, callable $callback, int $ttl = 3): void
     {
         $flag = $this->lock($key, $ttl);
-        if ( !$flag) {
-            throw new RuntimeException("未获取到锁");
+        if (!$flag) {
+            throw new RuntimeException('未获取到锁');
         }
         try {
             $callback();
@@ -38,7 +43,7 @@ class LockService
     public function lock(string $key, int $expire = 3): \Predis\Response\Status
     {
         $handler = Redis::connection();
-        return $handler->set($key, 1, ["NX", "EX" => $expire]);
+        return $handler->set($key, 1, ['NX', 'EX' => $expire]);
     }
 
     /**
@@ -51,5 +56,4 @@ class LockService
         $handler = Redis::connection();
         return $handler->del($key);
     }
-
 }

@@ -1,6 +1,11 @@
 <?php
 
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Service;
 
@@ -30,5 +35,4 @@ class RedisQueueService
         }
         return Json::decode($data[1], true);
     }
-
 }

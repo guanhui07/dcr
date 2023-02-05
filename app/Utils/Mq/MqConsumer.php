@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils\Mq;
 
@@ -17,7 +22,7 @@ class MqConsumer
      *
      * @throws Exception
      */
-    public function consumer($name)
+    public function consumer($name): void
     {
         //获取配置
         $amqpConfig            = Config::get('rabbitmq.AMQP');
@@ -86,8 +91,15 @@ class MqConsumer
             nowait: 不返回执行结果，但是如果排他开启的话，则必须需要等待结果的，如果两个一起开就会报错
             callback: :回调逻辑处理函数,PHP回调 array($this, 'process_message') 调用本对象的process_message方法
         */
-        $channel->basic_consume($amqpQueueDefailConfig['queue_name'], $amqpQueueDefailConfig['consumer_tag'], false, false, false, false,
-            [$this, 'msgProc']);
+        $channel->basic_consume(
+            $amqpQueueDefailConfig['queue_name'],
+            $amqpQueueDefailConfig['consumer_tag'],
+            false,
+            false,
+            false,
+            false,
+            [$this, 'msgProc']
+        );
 
         //退出
         register_shutdown_function([$this, 'shutdown'], $channel, $connection);
@@ -103,7 +115,7 @@ class MqConsumer
      *
      * @param  $msg AMQPMessage
      */
-    public function msgProc($msg)
+    public function msgProc($msg): void
     {
         echo $msg->body."\n";
         $msg->ack();
@@ -117,11 +129,9 @@ class MqConsumer
      *
      * @throws Exception
      */
-    public function shutdown($channel, $connection)
+    public function shutdown($channel, $connection): void
     {
         $channel->close();
         $connection->close();
     }
-
 }
-

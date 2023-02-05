@@ -1,8 +1,14 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Middleware;
 
+use app\Exception\RuntimeException;
 use app\Middleware\Contract\MiddlewareInterface;
 
 class TestMiddleware implements MiddlewareInterface
@@ -12,7 +18,7 @@ class TestMiddleware implements MiddlewareInterface
     public function handle()
     {
         return static function ($request, $next) {
-            //            throw new RuntimeException('未登录');
+//            throw new RuntimeException('未登录');
             $response = $next->handle($request);
             return $response;
         };

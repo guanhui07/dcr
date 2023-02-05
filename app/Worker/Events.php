@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Worker;
 
@@ -19,9 +24,8 @@ class Events
      * onWorkerStart 事件回调
      * 当businessWorker进程启动时触发。每个进程生命周期内都只会触发一次
      */
-    public static function onWorkerStart(Worker $businessWorker)
+    public static function onWorkerStart(Worker $businessWorker): void
     {
-
         // tp
         //        $app = new Application;
         //        $app->initialize();
@@ -35,7 +39,7 @@ class Events
      *
      * @throws Exception
      */
-    public static function onConnect($client_id)
+    public static function onConnect($client_id): void
     {
         Socket::handle($client_id, '', 'onConnect');
     }
@@ -50,7 +54,7 @@ class Events
      * @return void
      * @throws Exception
      */
-    public static function onWebSocketConnect($client_id, $data)
+    public static function onWebSocketConnect($client_id, $data): void
     {
         try {
             //处理连接绑定
@@ -72,7 +76,7 @@ class Events
      *
      * @throws Exception
      */
-    public static function onMessage($client_id, $data)
+    public static function onMessage($client_id, $data): void
     {
         //处理用户之间的相互通信
         $result = Socket::handle($client_id, $data, 'onMessage');
@@ -84,7 +88,7 @@ class Events
      *
      * @throws Exception
      */
-    public static function onClose($client_id)
+    public static function onClose($client_id): void
     {
         Socket::handle($client_id, '', 'onClose');
     }
@@ -92,7 +96,7 @@ class Events
     /**
      * @param  Worker  $businessWorker
      */
-    public static function onWorkerStop(Worker $businessWorker)
+    public static function onWorkerStop(Worker $businessWorker): void
     {
         // $result = Socket::handle('','','WorkerStop');
     }

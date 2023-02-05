@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Event;
 
@@ -14,6 +19,7 @@ use Doctrine\Common\EventManager;
 final class TestEvent
 {
     public const preFoo = 'preFoo';
+
     public const postFoo = 'postFoo';
 
     /** @var EventManager */

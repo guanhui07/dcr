@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 use app\Utils\Config;
 use app\Utils\Json;
@@ -12,8 +17,8 @@ use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-if ( !function_exists('debug')) {
-    function debug($v)
+if (!function_exists('debug')) {
+    function debug($v): void
     {
         if (is_string($v) || is_int($v)) {
             if (trim($v) === '') {
@@ -24,9 +29,9 @@ if ( !function_exists('debug')) {
         } elseif (is_bool($v) || is_resource($v) || is_null($v) || is_object($v)) {
             var_dump($v);
         } elseif (is_array($v)) {
-            echo "<pre>";
+            echo '<pre>';
             print_r($v);
-            echo "</pre>";
+            echo '</pre>';
         } else {
             var_dump($v);
         }
@@ -50,7 +55,7 @@ function runtime_path(): string
 }
 
 
-function cException($exception)
+function cException($exception): void
 {
     if (DEBUG === true) {
         echo $exception->__toString();
@@ -66,17 +71,31 @@ function cException($exception)
 //        "server_ip" => gethostname(),
 //    ));
     $log_data = '';
-    $log_data .= date("Y-m-d H:i:s").' '.$exception->__toString();
+    $log_data .= date('Y-m-d H:i:s').' '.$exception->__toString();
 
     writeLog($log_data, 'exception_error');
     echo 'exception_error';
     return;
 }
 
+if (! function_exists('str_random')) {
+    /**
+     * Generate a more truly "random" alpha-numeric string.
+     *
+     * @param  int  $length
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    function str_random($length = 16)
+    {
+        return Str::random($length);
+    }
+}
 
 function writeLog($msg, $name = null, $logDir = null)
 {
-    if ( !$name) {
+    if (!$name) {
         $name = date('Y-m-d_H', time());
     } else {
         if ($logDir === null) {
@@ -94,17 +113,17 @@ function writeLog($msg, $name = null, $logDir = null)
         $logDir = '/'.'pre_'.'/'.date('Ym', time()).'/'.date('d', time());
     }
 
-    if ( !file_exists(PROJECT_ROOT.'runtime/errlog/'.$logDir)) {
+    if (!file_exists(PROJECT_ROOT.'runtime/errlog/'.$logDir)) {
         mkdir(PROJECT_ROOT.'runtime/errlog/'.$logDir, 0777, true);
     }
 
     $logPath = PROJECT_ROOT.'runtime/errlog/'.$logDir;
-    $logFile = $logPath."/".$name.".log";
+    $logFile = $logPath.'/'.$name.'.log';
 
     if (is_array($msg)) {
         $msg = json_encode($msg);
     }
-    $msg = '['.date("Y-m-d H:i:s", time()).'] '.$msg."\n";
+    $msg = '['.date('Y-m-d H:i:s', time()).'] '.$msg."\n";
 
     return file_put_contents($logFile, $msg, FILE_APPEND);
 }
@@ -200,14 +219,14 @@ function signatureKey($param): string
     foreach ($param as $k => $v) {
         $string .= $k.'='.urlencode($v);
     }
-    $newTicket = hash_hmac("md5", strtolower($string), 'pushOrder');
+    $newTicket = hash_hmac('md5', strtolower($string), 'pushOrder');
     return $newTicket;
 }
 
 
 function randStr(): string
 {
-    $arr = array_merge(range(0, 9), range("a", "z"), range("A", "Z"));
+    $arr = array_merge(range(0, 9), range('a', 'z'), range('A', 'Z'));
     shuffle($arr);
     $arr2 = array_slice($arr, 0, 4);
     return implode('', $arr2);
@@ -221,7 +240,7 @@ function xmlToArray($xml)
 }
 
 
-if ( !function_exists('objToArray')) {
+if (!function_exists('objToArray')) {
     function objToArray($o)
     {
         // return json_decode(  json_encode($o),1 );
@@ -253,7 +272,6 @@ function result($data, $code = 200, $message = '成功'): string
 
 function resultx($data, $code = 200, $message = '成功', $module = '')
 {
-
     $name = 'content';
 
     if ($code == false) {
@@ -312,7 +330,7 @@ function errorx($message = '失败', $code = 404, $data = '')
 }
 
 
-if ( !function_exists('cache')) {
+if (!function_exists('cache')) {
     function cache($key, Closure $closure, $ttl = null)
     {
         if ($result = \app\Utils\Redis::connection()->get($key)) {
@@ -329,13 +347,12 @@ function getRedis()
     return \app\Utils\Redis::connection();
 }
 
-function apiLog($jsonArr)
+function apiLog($jsonArr): void
 {
-
 }
 
 
-if ( !function_exists('collectNew')) {
+if (!function_exists('collectNew')) {
     /**
      * @param  null|array|Collection  $value
      * @param  bool  $toLine
@@ -358,7 +375,7 @@ if ( !function_exists('collectNew')) {
     }
 }
 
-if ( !function_exists('socketSend')) {
+if (!function_exists('socketSend')) {
     function socketSend(int $uid, array $data): bool
     {
         $strData = Json::encode($data);
@@ -376,7 +393,7 @@ if ( !function_exists('socketSend')) {
     }
 }
 
-if ( !function_exists('retry')) {
+if (!function_exists('retry')) {
     /**
      * $data = retry(3, function () {
      * $rand = mt_rand(1, 10);
@@ -414,10 +431,13 @@ if ( !function_exists('retry')) {
 function real_ip()
 {
     $ip = $_SERVER['REMOTE_ADDR'];
-    if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $_SERVER['HTTP_X_FORWARDED_FOR'],
-            $matches)) {
+    if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && preg_match_all(
+        '#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s',
+        $_SERVER['HTTP_X_FORWARDED_FOR'],
+        $matches
+    )) {
         foreach ($matches[0] as $xip) {
-            if ( !preg_match('#^(10|172\.16|192\.168)\.#', $xip)) {
+            if (!preg_match('#^(10|172\.16|192\.168)\.#', $xip)) {
                 $ip = $xip;
                 break;
             }
@@ -503,7 +523,7 @@ function stringToLine(string $string): string
 }
 
 
-if ( !function_exists('array_multi_column')) {
+if (!function_exists('array_multi_column')) {
     function array_multi_column(array $array, array $column): array
     {
         return array_map(function ($data) use ($column) {
@@ -512,7 +532,7 @@ if ( !function_exists('array_multi_column')) {
     }
 }
 
-if ( !function_exists('call')) {
+if (!function_exists('call')) {
     /**
      * Call a callback with the arguments.
      *
@@ -626,30 +646,15 @@ function config(string $str)
 }
 
 
-function createDirectoryIfNeeded($directory)
+function createDirectoryIfNeeded($directory): void
 {
     if (!file_exists($directory) || !is_dir($directory)) {
         mkdir($directory, 0777, true);
     }
 }
 
-if (! function_exists('str_random')) {
-    /**
-     * Generate a more truly "random" alpha-numeric string.
-     *
-     * @param  int  $length
-     * @return string
-     *
-     * @throws \RuntimeException
-     */
-    function str_random($length = 16)
-    {
-        return Str::random($length);
-    }
-}
 
 function base_path()
 {
     return PROJECT_ROOT;
 }
-

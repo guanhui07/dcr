@@ -8,6 +8,7 @@
 namespace app\Controller;
 
 use app\Event\TestEvent;
+use app\Facade\TestFacade;
 use app\Middleware\TestMiddleware;
 use app\Model\UserModel;
 use app\Service\Entity\ExchGiftInfo;
@@ -17,7 +18,6 @@ use app\Utils\JwtToken;
 use app\Utils\LogBase;
 use Carbon\Carbon;
 use dcr\Annotation\Mapping\RequestMapping;
-use dcr\Facade\TestFacade;
 use DI\Attribute\Inject;
 use Exception;
 use Gregwar\Captcha\CaptchaBuilder;

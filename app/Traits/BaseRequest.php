@@ -1,21 +1,26 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Traits;
 
 use app\Utils\LogBase;
 use app\Utils\Str;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Qiniu\Auth as AuthQi;
 use Qiniu\Storage\UploadManager;
+use Exception;
 
 trait BaseRequest
 {
     //只用来调试
     public function log($v, $method = false): bool
     {
-        if ( !$method) {
+        if (!$method) {
             LogBase::info($v);
         } else {
             if (in_array($method, ['warning', 'error', 'info'])) {
@@ -42,7 +47,6 @@ trait BaseRequest
         return $exexute([
             'status' => 200, 'message' => 'success', 'content' => $response,
         ]);
-
     }
 
     protected function errResponse($response): bool|string
@@ -61,7 +65,7 @@ trait BaseRequest
         if (class_exists('SeasLog')) {
         } else {
             logfilebyname:
-            if ( !$file_name) {
+            if (!$file_name) {
                 $file_name = runtime_path().'/log/log.log';
             } else {
                 $file_name = runtime_path().'/log/'.$file_name;
@@ -95,7 +99,7 @@ trait BaseRequest
      * @param  string  $qiniuFileUri
      *
      * @return false|string
-     * @throws \Exception
+     * @throws Exception
      */
     public function uploadByQiniuGetUri($filePath = '/path/test.jpg', $bucket = 'nft-huanji', $qiniuFileUri = '')
     {
@@ -114,14 +118,14 @@ trait BaseRequest
         $token = $auth->uploadToken($cfg['bucket'], null, 3600); //单位: s
 
         $uploadMgr = new UploadManager();
-        if ( !$qiniuFileUri) {
+        if (!$qiniuFileUri) {
             $qiniuFileUri = date('Ymd').'/'
                 .md5(time().mt_rand(1, 99999).Str::random(16)).'.png';
         }
 
         //$qiniu_file = md5(file_get_contents($filePath));
 
-        if ( !filter_var($filePath, FILTER_VALIDATE_URL)) {
+        if (!filter_var($filePath, FILTER_VALIDATE_URL)) {
             //[$qiniu_file, $err] =  Etag::sum($filePath);
             [$ret, $err] = $uploadMgr->putFile($token, $qiniuFileUri, $filePath);
         } else {
@@ -129,7 +133,7 @@ trait BaseRequest
         }
 
         if ($err !== null) {
-            if ( !is_string($err)) {
+            if (!is_string($err)) {
                 $err = var_export($err, true);
             }
             $this->logFile($err, 'qi_niu.log', true);
@@ -140,5 +144,4 @@ trait BaseRequest
             return '/'.$ret['key'];
         }
     }
-
 }

@@ -1,8 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils\Process;
 
-use app\Utils\Log;
+use app\Utils\LogBase;
 use Swoole\Process;
 use Swoole\Table;
 
@@ -45,9 +50,9 @@ class Manage
      *  swoole_table  监控主进程
      *  保证所有process进程顺利运行
      *  */
-    public function monitorStart()
+    public function monitorStart(): void
     {
-        pcntl_signal(SIGTERM, [$this, "killMonitor"]);
+        pcntl_signal(SIGTERM, [$this, 'killMonitor']);
         declare(ticks = 1);
         swoole_set_process_name($this->getProName('master'));
         $this->pid = $this->newMonitor();
@@ -56,7 +61,7 @@ class Manage
             if ($ret) {
                 // $ret 是个数组 code是进程退出状态码
                 $pid = $ret['pid'];
-                Log::write("monitor exit, pid=".$pid.",restart it!", $this->config['logName']);
+                LogBase::write('monitor exit, pid='.$pid.',restart it!', $this->config['logName']);
                 $this->pid = $this->newMonitor();
             }
             sleep(1);
@@ -66,7 +71,7 @@ class Manage
     /**
      * 钩子方法，请编码业务逻辑
      * */
-    protected function hook()
+    protected function hook(): void
     {
         // 请于子类中完成之下的业务逻辑处理，或实现一些其他的 dispatch 操作等
     }
@@ -75,17 +80,17 @@ class Manage
      * 刷新当前进程的心跳时间戳
      * 请于子类业务死循环 [while(true) {...}] 中最开始部分调用其父类中的该方法，否则将无法正确监控
      * */
-    protected function flushTimestamp($pid)
+    protected function flushTimestamp($pid): void
     {
-        $value              = $this->table->get($this->config["pre"].$pid);
+        $value              = $this->table->get($this->config['pre'].$pid);
         $value['timestamp'] = time();
-        $this->table->set($this->config["pre"].$pid, $value);
+        $this->table->set($this->config['pre'].$pid, $value);
     }
 
     /**
      * 钩子方法，当进程退出的时候执行一些操作
      */
-    protected function exiting()
+    protected function exiting(): void
     {
     }
 
@@ -94,9 +99,9 @@ class Manage
      * */
     private function newMonitor()
     {
-        $process = new  Process(function () {
-            pcntl_signal(SIGTERM, [$this, "killAllProcess"]);
-            pcntl_signal(SIGCHLD, [$this, "childDie"]);
+        $process = new  Process(function (): void {
+            pcntl_signal(SIGTERM, [$this, 'killAllProcess']);
+            pcntl_signal(SIGCHLD, [$this, 'childDie']);
             declare(ticks = 1);
             swoole_set_process_name($this->getProName('monitor'));
 
@@ -104,17 +109,17 @@ class Manage
                 //  检测进程是否需要初始化，其中有一个是monitor的，计数要减一
                 $tableCount = count($this->table);
                 if ($tableCount < $this->config['processNum']) {
-                    Log::write('monitor  new  process', $this->config['logName']);
+                    LogBase::write('monitor  new  process', $this->config['logName']);
                     for ($i = 0; $i < $this->config['processNum'] - $tableCount; ++$i) {
                         $info = $this->registeProcess($this->config['name']);
-                        if ( !$info) {
-                            Log::write('start  work  process  faild,please  check  memory or swoole\'s log', $this->config['logName']);
+                        if (!$info) {
+                            LogBase::write('start  work  process  faild,please  check  memory or swoole\'s log', $this->config['logName']);
                         }
                     }
                 } else {
                     foreach ($this->table as $index => $value) {
                         if (time() - $value['timestamp'] > $this->config['heartTime']) {
-                            Process::kill($value["pid"]);
+                            Process::kill($value['pid']);
                             $this->table->del($index);
                         }
                     }
@@ -123,10 +128,10 @@ class Manage
                 sleep(1);
             }
         });
-        Log::write('start monitor process', $this->config['logName']);
+        LogBase::write('start monitor process', $this->config['logName']);
         $pid = $process->start();
-        if ( !$pid) {
-            Log::write('start  monitor  process  faild,please  check  memory or swoole\'s log', $this->config['logName']);
+        if (!$pid) {
+            LogBase::write('start  monitor  process  faild,please  check  memory or swoole\'s log', $this->config['logName']);
             return false;
         }
         return $pid;
@@ -138,10 +143,10 @@ class Manage
      * */
     private function registeProcess($name)
     {
-        $process = new Process(function () use ($name) {
+        $process = new Process(function () use ($name): void {
             $pid = getmypid();
             swoole_set_process_name($this->getProName('work_'.$this->pre.$pid));
-            pcntl_signal(SIGTERM, [$this, "killMe"]);
+            pcntl_signal(SIGTERM, [$this, 'killMe']);
             $this->hook();
         });
         $pid     = $process->start();
@@ -170,13 +175,13 @@ class Manage
     /**
      * kill 所有进程，最后在kill自己，并记录日志
      */
-    private function killAllProcess()
+    private function killAllProcess(): void
     {
-        Log::write('kill all process', $this->config['logName']);
+        LogBase::write('kill all process', $this->config['logName']);
         foreach ($this->table as $index => $item) {
             Process::kill($item['pid']);
         }
-        Log::write('kill monitor', $this->config['logName']);
+        LogBase::write('kill monitor', $this->config['logName']);
         exit(0);
     }
 
@@ -184,9 +189,9 @@ class Manage
      * kill monitor
      *
      */
-    private function killMonitor()
+    private function killMonitor(): void
     {
-        Log::write('kill monitor process', $this->config['logName']);
+        LogBase::write('kill monitor process', $this->config['logName']);
         Process::kill($this->monitorPid);
         exit(0);
     }
@@ -195,13 +200,13 @@ class Manage
      * monitor 接受到子进程发送的死亡信号
      *
      */
-    public function childDie()
+    public function childDie(): void
     {
         while ($ret = Process::wait(false)) {
             // $ret 是个数组 code是进程退出状态码
             $pid = $ret['pid'];
-            $this->table->del($this->config["pre"].$pid);
-            Log::write('a work process has been gone,wait monitor restart', $this->config['logName']);
+            $this->table->del($this->config['pre'].$pid);
+            LogBase::write('a work process has been gone,wait monitor restart', $this->config['logName']);
         }
     }
 
@@ -209,22 +214,22 @@ class Manage
      * 子进程收到 kill 信号
      *
      */
-    private function killMe()
+    private function killMe(): void
     {
         $pid = getmypid();
-        $key = ($this->config["pre"].$pid);
+        $key = ($this->config['pre'].$pid);
         $this->table->del($key);
         $this->exiting();
-        Log::write('work process has been killed,pid is '.$pid, $this->config['logName']);
+        LogBase::write('work process has been killed,pid is '.$pid, $this->config['logName']);
         exit;
     }
 
-    private function dumpTable()
+    private function dumpTable(): void
     {
         $statics = [];
         foreach ($this->table as $k => $v) {
             $statics[$k] = $v;
         }
-        Log::write(json_encode($statics));
+        LogBase::write(json_encode($statics));
     }
 }

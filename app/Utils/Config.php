@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils;
 
@@ -33,7 +38,7 @@ class Config
      */
     protected static function dealArr(mixed $arr)
     {
-        if ( !is_array($arr)) {
+        if (!is_array($arr)) {
             switch (strtolower($arr)) {
                 case 'true':
                 case '(true)':

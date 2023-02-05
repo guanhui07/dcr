@@ -1,4 +1,9 @@
 <?php declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils\Collect;
 
@@ -405,7 +410,7 @@ class CollectionNew extends Collection
             $callback = $this->valueRetriever($key);
 
             foreach ($this->items as $k => $v) {
-                if ( !$callback($v, $k)) {
+                if (!$callback($v, $k)) {
                     return false;
                 }
             }
@@ -427,7 +432,7 @@ class CollectionNew extends Collection
     {
         if ($keys instanceof self) {
             $keys = $keys->all();
-        } elseif ( !is_array($keys)) {
+        } elseif (!is_array($keys)) {
             $keys = func_get_args();
         }
 
@@ -801,14 +806,14 @@ class CollectionNew extends Collection
         foreach ($this->items as $key => $value) {
             $groupKeys = $groupBy($value, $key);
 
-            if ( !is_array($groupKeys)) {
+            if (!is_array($groupKeys)) {
                 $groupKeys = [$groupKeys];
             }
 
             foreach ($groupKeys as $groupKey) {
                 $groupKey = is_bool($groupKey) ? (int) $groupKey : $groupKey;
 
-                if ( !array_key_exists($groupKey, $results)) {
+                if (!array_key_exists($groupKey, $results)) {
                     $results[$groupKey] = new static();
                 }
 
@@ -818,7 +823,7 @@ class CollectionNew extends Collection
 
         $result = new static($results);
 
-        if ( !empty($nextGroups)) {
+        if (!empty($nextGroups)) {
             return $result->map(function (CollectionNew $value) use ($nextGroups, $preserveKeys) {
                 return $value->groupBy($nextGroups, $preserveKeys);
             });
@@ -865,7 +870,7 @@ class CollectionNew extends Collection
         $keys = is_array($key) ? $key : func_get_args();
 
         foreach ($keys as $value) {
-            if ( !$this->offsetExists($value)) {
+            if (!$this->offsetExists($value)) {
                 return false;
             }
         }
@@ -1032,7 +1037,7 @@ class CollectionNew extends Collection
 
             $value = reset($pair);
 
-            if ( !isset($dictionary[$key])) {
+            if (!isset($dictionary[$key])) {
                 $dictionary[$key] = [];
             }
 
@@ -1419,7 +1424,7 @@ class CollectionNew extends Collection
      */
     public function search($value, $strict = false)
     {
-        if ( !$this->useAsCallable($value)) {
+        if (!$this->useAsCallable($value)) {
             return array_search($value, $this->items, $strict);
         }
 

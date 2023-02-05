@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils\Mq;
 
@@ -67,6 +72,4 @@ class MqProducer
 
         return true;
     }
-
 }
-

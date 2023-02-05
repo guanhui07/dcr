@@ -10,6 +10,7 @@ namespace dcr;
 
 use app\Provider\EventServiceProvider;
 use app\Utils\Config;
+use dcr\Annotation\RouteAnnotation;
 use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
@@ -22,9 +23,10 @@ class Boostrap
 {
     public function run(): void
     {
+        // 路由分发对象创建
         Router::load([PROJECT_ROOT.'routes']);
-        //注解路由 add route
-        require_once(PROJECT_ROOT.'dcr/Annotation/route.php');
+        //注解路由 扫描控制器目录 注解路由 解析 add route
+        di()->get(RouteAnnotation::class)->handle();
 
         header('Content-type: text/html; charset=utf-8');
         $this->loadDotEnv();

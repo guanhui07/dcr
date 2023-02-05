@@ -1,10 +1,16 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils;
 
 use app\Exception\SystemException;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
+use Exception;
 
 /**
  * ES操作封装，仅用于方便使用
@@ -21,12 +27,11 @@ class Elasticsearch6
     //对应配置原文
     protected $config = [];
 
-
     /**
      * @param string $configName
      * @return Elasticsearch6
      */
-    public static function Factory($configName = "default")
+    public static function Factory($configName = 'default')
     {
         static $instance = null;
 
@@ -37,23 +42,22 @@ class Elasticsearch6
         //new one
         $instance[$configName] = new self($configName);
         return $instance[$configName];
-
     }
 
     /**
      * ElasticSearch constructor.
      * @param string $configName 配置名称
      */
-    public function __construct($configName = "default")
+    public function __construct($configName = 'default')
     {
-        $config = Config::get("ElasticSearch");
+        $config = Config::get('ElasticSearch');
         if (!isset($config[$configName])) {
-            throw new SystemException("ElasticSearch 没有找到指定配置文件内指定db:" . $configName, -8001);
+            throw new SystemException('ElasticSearch 没有找到指定配置文件内指定db:' . $configName, -8001);
         }
 
         $this->config = $config[$configName];
 
-        $this->client = ClientBuilder::create()->setHosts($this->config["hosts"])->build();
+        $this->client = ClientBuilder::create()->setHosts($this->config['hosts'])->build();
     }
 
     /**
@@ -62,12 +66,12 @@ class Elasticsearch6
      * @param array $mapping
      * @param array $setting
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
-    public function createIndex($index, $mapping = array(), $setting = array())
+    public function createIndex($index, $mapping = [], $setting = [])
     {
         if (empty($index) || empty($mapping)) {
-            throw new SystemException("参数必填", -8002);
+            throw new SystemException('参数必填', -8002);
         }
         $params = [
             'index' => $index,
@@ -78,23 +82,23 @@ class Elasticsearch6
         ];
 
         $response = $this->client->indices()->create($params);
-        return $response["acknowledged"] && $response["shards_acknowledged"];
+        return $response['acknowledged'] && $response['shards_acknowledged'];
     }
 
     /**
      * 删除索引
      * @param string $index
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function removeIndex($index)
     {
         if (empty($index)) {
-            throw new SystemException("参数必填", -8002);
+            throw new SystemException('参数必填', -8002);
         }
         $params = ['index' => $index];
         $response = $this->client->indices()->delete($params);
-        if ($response["acknowledged"]) {
+        if ($response['acknowledged']) {
             return true;
         }
         //失败就直接抛出异常了
@@ -107,12 +111,12 @@ class Elasticsearch6
      * @param string $type es doc type
      * @param array $data kv数组，要索引的数据
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function indexDocument($index, $type, $data)
     {
         if (empty($index) || empty($type) || empty($data)) {
-            throw new SystemException("参数必填", -8002);
+            throw new SystemException('参数必填', -8002);
         }
         $params = [
             'index' => $index,
@@ -121,8 +125,8 @@ class Elasticsearch6
         ];
 
         $response = $this->client->index($params);
-        if (isset($response["result"], $response["_id"]) && $response["result"] === "created") {
-            return $response["_id"];
+        if (isset($response['result'], $response['_id']) && $response['result'] === 'created') {
+            return $response['_id'];
         }
         //失败就直接抛出异常了
         return false;
@@ -135,12 +139,12 @@ class Elasticsearch6
      * @param string $id 指定索引的id
      * @param array $data kv数组，为要索引数据
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function indexDocumentWithId($index, $type, $id, $data)
     {
         if (empty($index) || empty($type) || empty($data) || empty($id)) {
-            throw new SystemException("参数必填", -8002);
+            throw new SystemException('参数必填', -8002);
         }
         $params = [
             'index' => $index,
@@ -150,19 +154,19 @@ class Elasticsearch6
         ];
 
         $response = $this->client->index($params);
-        return isset($response["result"]) && $response["result"] === "created";
+        return isset($response['result']) && $response['result'] === 'created';
     }
 
     /**
      * 批量索引数据
      * @param array $dataList 二维数组，批量数据，必须包含type index data及可选id
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function bulkIndexDocument($dataList)
     {
         if (empty($dataList)) {
-            throw new SystemException("参数必填", -8002);
+            throw new SystemException('参数必填', -8002);
         }
         $params = ['body' => []];
 
@@ -172,32 +176,32 @@ class Elasticsearch6
             //添加索引及id信息
 
             //有id，设置索引及id
-            if (isset($dataItem["id"])) {
+            if (isset($dataItem['id'])) {
                 $params['body'][] = [
                     'index' => [
-                        '_type' => $dataItem["type"],
-                        '_index' => $dataItem["index"],
-                        '_id' => $dataItem["id"],
+                        '_type' => $dataItem['type'],
+                        '_index' => $dataItem['index'],
+                        '_id' => $dataItem['id'],
                     ]
                 ];
             } else {
                 $params['body'][] = [
                     'index' => [
-                        '_type' => $dataItem["type"],
-                        '_index' => $dataItem["index"],
+                        '_type' => $dataItem['type'],
+                        '_index' => $dataItem['index'],
                     ]
                 ];
             }
 
             //设置下一条，用于数据存储
-            $params['body'][] = $dataItem["data"];
+            $params['body'][] = $dataItem['data'];
 
             $total++;
 
             // Every 1000 documents stop and send the bulk request
             if ($total % 1000 == 0) {
                 $responses = $this->client->bulk($params);
-                if (!isset($responses["errors"]) || $responses["errors"] !== false) {
+                if (!isset($responses['errors']) || $responses['errors'] !== false) {
                     return false;
                 }
 
@@ -213,7 +217,7 @@ class Elasticsearch6
         if (!empty($params['body'])) {
             $responses = $this->client->bulk($params);
 
-            if (!isset($responses["errors"]) || $responses["errors"] !== false) {
+            if (!isset($responses['errors']) || $responses['errors'] !== false) {
                 return false;
             }
         }
@@ -227,12 +231,12 @@ class Elasticsearch6
      * @param string $type 索引type，类似于数据库中的db
      * @param string $id 数据id
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function getDocumentByid($index, $type, $id)
     {
         if (empty($index) || empty($type) || empty($id)) {
-            throw new SystemException("参数必填", -8002);
+            throw new SystemException('参数必填', -8002);
         }
         $params = [
             'id' => $id,
@@ -242,8 +246,8 @@ class Elasticsearch6
 
         // Get doc at /my_index/_doc/my_id
         $response = $this->client->get($params);
-        if ($response["found"]) {
-            return $response["_source"];
+        if ($response['found']) {
+            return $response['_source'];
         }
         return false;
     }
@@ -255,12 +259,12 @@ class Elasticsearch6
      * @param string $id 数据id
      * @param array $data kv数据，要更新的数据放这里
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function updateDocumentById($index, $type, $id, $data)
     {
         if (empty($index) || empty($type) || empty($id) || empty($data)) {
-            throw new SystemException("参数必填", -8002);
+            throw new SystemException('参数必填', -8002);
         }
 
         $params = [
@@ -274,9 +278,8 @@ class Elasticsearch6
 
         // Update doc at /my_index/_doc/my_id
         $response = $this->client->update($params);
-        return $response["result"] === "updated";
+        return $response['result'] === 'updated';
     }
-
 
     /**
      * 删除指定id索引文档
@@ -284,12 +287,12 @@ class Elasticsearch6
      * @param string $type 索引type，类似于数据库中的db
      * @param string $id 数据id
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      */
     public function delDocumentById($index, $type, $id)
     {
         if (empty($index) || empty($type) || empty($id)) {
-            throw new SystemException("参数必填", -8002);
+            throw new SystemException('参数必填', -8002);
         }
         $params = [
             'index' => $index,
@@ -299,7 +302,7 @@ class Elasticsearch6
 
         // Delete doc at /my_index/_doc_/my_id
         $response = $this->client->delete($params);
-        return isset($response["result"]) && $response["result"] === "deleted";
+        return isset($response['result']) && $response['result'] === 'deleted';
     }
 
     /**
@@ -308,7 +311,7 @@ class Elasticsearch6
      * @param string $type
      * @param array $body body内内容随意定制，具体参考官方
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function search($index, $type, $body)
     {
@@ -330,12 +333,12 @@ class Elasticsearch6
      * @param int $pageSize 每个分区每次返回数据个数
      * @param int $limit 总共获取多少条
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function searchByScroll($index, $type, $body, $pageSize, $limit = 1000)
     {
         $params = [
-            "size" => $pageSize,
+            'size' => $pageSize,
             'index' => $index,
             'type' => $type,
             'body' => $body
@@ -359,9 +362,10 @@ class Elasticsearch6
                 return $results;
             }
             // Execute a Scroll request and repeat
-            $response = $this->client->scroll([
-                    "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
-                    "scroll" => "30s"           // and the same timeout window
+            $response = $this->client->scroll(
+                [
+                    'scroll_id' => $scroll_id,  //...using our previously obtained _scroll_id
+                    'scroll' => '30s'           // and the same timeout window
                 ]
             );
         }
@@ -406,7 +410,7 @@ class Elasticsearch6
             ]
         ];
         $response = $this->client->indices()->putSettings($params);
-        if ($response["acknowledged"]) {
+        if ($response['acknowledged']) {
             return true;
         }
         return false;
@@ -441,11 +445,9 @@ class Elasticsearch6
             ]
         ];
         $response = $this->client->indices()->putMapping($params);
-        if ($response["acknowledged"]) {
+        if ($response['acknowledged']) {
             return true;
         }
         return false;
     }
-
-
 }

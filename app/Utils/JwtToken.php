@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils;
 
@@ -12,6 +17,7 @@ class JwtToken
     use BaseRequest;
 
     public const JWT_SEC_KEY = 'ranndom_Key_$888';
+
     public static float|int $expire_token_time = 60 * 60; //min
 
     public static function getTokenOriTime()
@@ -47,7 +53,7 @@ class JwtToken
         $key          = self::JWT_SEC_KEY;
         $cache_exists = Cache::get($token);
 
-        if ( !$cache_exists) {
+        if (!$cache_exists) {
             return [];
         }
         $token = $cache_exists['jwt_token'];
@@ -68,7 +74,7 @@ class JwtToken
         $new_token    = '';
         $cache_exists = Cache::get($token);
 
-        if ( !$cache_exists) {
+        if (!$cache_exists) {
             return false;
         }
         $token = $cache_exists['jwt_token'];
@@ -112,8 +118,9 @@ class JwtToken
     {
         $key   = self::JWT_SEC_KEY;
         $token = [
-            "iss1" => "http://test.org", "aud1" => "test11",
-            "iat1" => 1356999524,
+            'iss1' => 'http://test.org', 'aud1' => 'test11',
+            'iat1' => 1356999524,
+            'nbf1' => 1357000000,
         ];
 
         $jwt = JWT::encode($token, $key, 'HS256');
@@ -126,5 +133,4 @@ class JwtToken
         print_r($decoded);
         die;
     }
-
 }

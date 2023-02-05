@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils;
 
@@ -13,26 +18,26 @@ use Monolog\Logger;
  */
 class LogBase
 {
-    public static function info($str)
+    public static function info($str): void
     {
         $log = self::getLogger(Logger::INFO);
         $log->warning((string)$str);
     }
 
-    public static function warning($str)
+    public static function warning($str): void
     {
         $log = self::getLogger(Logger::WARNING);
         $log->warning((string)$str);
     }
 
-    public static function error($str)
+    public static function error($str): void
     {
         $log = self::getLogger(Logger::ERROR);
         // add records to the log
         $log->error((string)$str);
     }
 
-    public static function write($str,$config='')
+    public static function write($str, $config=''): void
     {
         self::error($str);
     }

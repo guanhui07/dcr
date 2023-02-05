@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Service\Entity;
 
@@ -15,5 +20,4 @@ class TestEntity extends SplBean
     public string $msg;
 
     public int $user_id;
-
 }

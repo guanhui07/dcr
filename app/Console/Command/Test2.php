@@ -1,12 +1,16 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Console\Command;
 
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Toolkit\PFlag\FlagsParser;
-
 
 /**
  * Class Test2
@@ -31,9 +35,9 @@ class Test2 extends \Inhere\Console\Command
         $fs->addArg('keywords', 'the keywords for search or show docs', 'string');
     }
 
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): void
     {
-        $keywords = $this->flags->getOpt('search',23);
+        $keywords = $this->flags->getOpt('search', 23);
         var_dump($keywords);
 //
 //        $name = $this->flags->getFirstArg();
@@ -43,9 +47,6 @@ class Test2 extends \Inhere\Console\Command
 //            return;
 //        }
 
-        $output->info("hello world ...");
+        $output->info('hello world ...');
     }
 }
-
-
-

@@ -1,12 +1,16 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Console\Command;
 
 use app\Service\Consumer\BalancePayConsumer;
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
-
 
 /**
  * 测试使用 rabbitmq 消费者
@@ -20,12 +24,9 @@ class Test2Consumer extends \Inhere\Console\Command
 
     protected static string $desc = 'print system ENV information';
 
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): void
     {
         $producer = new BalancePayConsumer();
-        $producer->consumer('test_pay');
+        $producer->consumer('balance_pay');
     }
 }
-
-
-

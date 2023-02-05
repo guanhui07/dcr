@@ -1,15 +1,26 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils;
 
 use Exception;
 use JsonSerializable;
+use ReflectionProperty;
+use ReflectionClass;
+use ReflectionException;
 
 class SplBean implements JsonSerializable
 {
     const FILTER_NOT_NULL = 1;
+
     const FILTER_NOT_EMPTY = 2;
+
     const FILTER_NULL = 3;
+
     const FILTER_EMPTY = 4;
 
     public function __construct(array $data = null, $autoCreateProperty = false)
@@ -24,9 +35,9 @@ class SplBean implements JsonSerializable
     final public function allProperty(): array
     {
         $data               = [];
-        $class              = new \ReflectionClass($this);
+        $class              = new ReflectionClass($this);
         $protectedAndPublic = $class->getProperties(
-            \ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED
+            ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED
         );
         foreach ($protectedAndPublic as $item) {
             if ($item->isStatic()) {
@@ -40,7 +51,7 @@ class SplBean implements JsonSerializable
         return array_flip($data);
     }
 
-    function toArray(array $columns = null, $filter = null): array
+    public function toArray(array $columns = null, $filter = null): array
     {
         $data = $this->jsonSerialize();
         if ($columns) {
@@ -79,7 +90,7 @@ class SplBean implements JsonSerializable
     /*
      * 返回转化后的array
      */
-    function toArrayWithMapping(array $columns = null, $filter = null)
+    public function toArrayWithMapping(array $columns = null, $filter = null)
     {
         $array = $this->toArray();
         $array = $this->beanKeyMap($array);
@@ -111,7 +122,6 @@ class SplBean implements JsonSerializable
 
     private function arrayToBean(array $data, $autoCreateProperty = false): SplBean
     {
-
         $data = $this->dataKeyMap($data);
 
         if ($autoCreateProperty == false) {
@@ -190,16 +200,16 @@ class SplBean implements JsonSerializable
         return $this;
     }
 
-    function merge(array $data)
+    public function merge(array $data)
     {
         $this->arrayToBean($data);
         return $this;
     }
 
-    private function clear()
+    private function clear(): void
     {
         $keys   = $this->allProperty();
-        $ref    = new \ReflectionClass(static::class);
+        $ref    = new ReflectionClass(static::class);
         $fields = array_keys($ref->getDefaultProperties());
         $fields = array_merge($fields, array_values($this->setKeyMapping()));
         // 多余的key
@@ -210,7 +220,7 @@ class SplBean implements JsonSerializable
         }
     }
 
-    private function classMap()
+    private function classMap(): void
     {
         $propertyList = $this->allProperty();
         foreach ($this->setClassMapping() as $property => $class) {
@@ -225,7 +235,7 @@ class SplBean implements JsonSerializable
                     $class = str_replace('[]', '', $class);
                 }
                 if (is_object($val)) {
-                    if ( !$val instanceof $class) {
+                    if (!$val instanceof $class) {
                         throw new Exception("forece:{$force} value for property:{$property} dot not match in ".($class));
                     }
 
@@ -237,7 +247,6 @@ class SplBean implements JsonSerializable
                 if ($val === null && $force == 'create') {
                     $this->$property = $this->createClass($class);
                 } elseif ($val === null && $force == 'default') {
-
                 } elseif (is_array($val) && $force == 'array') {
                     $val             = array_map(function ($value) use ($class) {
                         if ($value instanceof $class) {
@@ -271,11 +280,11 @@ class SplBean implements JsonSerializable
      * @param  null  $arg
      *
      * @return object
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function createClass(string $class, $arg = null)
     {
-        $ref = new \ReflectionClass($class);
+        $ref = new ReflectionClass($class);
         return $ref->newInstance($arg);
     }
 

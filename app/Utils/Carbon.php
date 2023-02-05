@@ -1,12 +1,8 @@
-<?php
-
-/*
- * This file is part of the Carbon package.
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
  *
- * (c) Brian Nesbitt <brian@nesbot.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
  */
 
 namespace app\Utils;
@@ -48,11 +44,17 @@ class Carbon extends DateTime
      * The day constants
      */
     const SUNDAY = 0;
+
     const MONDAY = 1;
+
     const TUESDAY = 2;
+
     const WEDNESDAY = 3;
+
     const THURSDAY = 4;
+
     const FRIDAY = 5;
+
     const SATURDAY = 6;
 
     /**
@@ -73,8 +75,11 @@ class Carbon extends DateTime
      * Number of X in Y
      */
     const MONTHS_PER_YEAR = 12;
+
     const HOURS_PER_DAY = 24;
+
     const MINUTES_PER_HOUR = 60;
+
     const SECONDS_PER_MINUTE = 60;
 
     /**
@@ -272,8 +277,11 @@ class Carbon extends DateTime
             $second = ($second === null) ? 0 : $second;
         }
 
-        return self::createFromFormat('Y-n-j G:i:s',
-            sprintf('%s-%s-%s %s:%02s:%02s', $year, $month, $day, $hour, $minute, $second), $tz);
+        return self::createFromFormat(
+            'Y-n-j G:i:s',
+            sprintf('%s-%s-%s %s:%02s:%02s', $year, $month, $day, $hour, $minute, $second),
+            $tz
+        );
     }
 
     /**
@@ -289,8 +297,15 @@ class Carbon extends DateTime
     public static function createFromDate($string, $tz = null)
     {
         $time = strtotime($string);
-        return self::create(date('Y', $time), date('m', $time), date('d', $time), date('H', $time), date('i', $time),
-            date('s', $time), $tz);
+        return self::create(
+            date('Y', $time),
+            date('m', $time),
+            date('d', $time),
+            date('H', $time),
+            date('i', $time),
+            date('s', $time),
+            $tz
+        );
     }
 
     /**
@@ -336,8 +351,14 @@ class Carbon extends DateTime
     public static function createFromTimeString(string $string)
     {
         $time = strtotime($string);
-        return self::create(date('Y', $time), date('m', $time), date('d', $time), date('H', $time), date('i', $time),
-            date('s', $time));
+        return self::create(
+            date('Y', $time),
+            date('m', $time),
+            date('d', $time),
+            date('H', $time),
+            date('i', $time),
+            date('s', $time)
+        );
     }
 
     /**
@@ -477,7 +498,7 @@ class Carbon extends DateTime
      * @param  string  $name
      * @param  string|integer|DateTimeZone  $value
      */
-    public function __set($name, $value)
+    public function __set($name, $value): void
     {
         switch ($name) {
             case 'year':
@@ -709,7 +730,7 @@ class Carbon extends DateTime
      *
      * @param  Carbon  $testNow
      */
-    public static function setTestNow(Carbon $testNow = null)
+    public static function setTestNow(Carbon $testNow = null): void
     {
         static::$testNow = $testNow;
     }
@@ -1053,7 +1074,7 @@ class Carbon extends DateTime
      */
     public function addYears($value)
     {
-        $interval = new DateInterval(sprintf("P%dY", abs($value)));
+        $interval = new DateInterval(sprintf('P%dY', abs($value)));
         if ($value >= 0) {
             $this->add($interval);
         } else {
@@ -1103,7 +1124,7 @@ class Carbon extends DateTime
      */
     public function addMonths($value)
     {
-        $interval = new DateInterval(sprintf("P%dM", abs($value)));
+        $interval = new DateInterval(sprintf('P%dM', abs($value)));
         if ($value >= 0) {
             $this->add($interval);
         } else {
@@ -1153,7 +1174,7 @@ class Carbon extends DateTime
      */
     public function addDays($value)
     {
-        $interval = new DateInterval(sprintf("P%dD", abs($value)));
+        $interval = new DateInterval(sprintf('P%dD', abs($value)));
         if ($value >= 0) {
             $this->add($interval);
         } else {
@@ -1259,7 +1280,7 @@ class Carbon extends DateTime
      */
     public function addWeeks($value)
     {
-        $interval = new DateInterval(sprintf("P%dW", abs($value)));
+        $interval = new DateInterval(sprintf('P%dW', abs($value)));
         if ($value >= 0) {
             $this->add($interval);
         } else {
@@ -1309,7 +1330,7 @@ class Carbon extends DateTime
      */
     public function addHours($value)
     {
-        $interval = new DateInterval(sprintf("PT%dH", abs($value)));
+        $interval = new DateInterval(sprintf('PT%dH', abs($value)));
         if ($value >= 0) {
             $this->add($interval);
         } else {
@@ -1359,7 +1380,7 @@ class Carbon extends DateTime
      */
     public function addMinutes($value)
     {
-        $interval = new DateInterval(sprintf("PT%dM", abs($value)));
+        $interval = new DateInterval(sprintf('PT%dM', abs($value)));
         if ($value >= 0) {
             $this->add($interval);
         } else {
@@ -1409,7 +1430,7 @@ class Carbon extends DateTime
      */
     public function addSeconds($value)
     {
-        $interval = new DateInterval(sprintf("PT%dS", abs($value)));
+        $interval = new DateInterval(sprintf('PT%dS', abs($value)));
         if ($value >= 0) {
             $this->add($interval);
         } else {

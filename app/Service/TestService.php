@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Service;
 
@@ -27,10 +32,10 @@ class TestService
      */
     public function __construct(TestRepository $t)
     {
-        //        $this->testRepository = $t;
+//        $this->testRepository = $t;
     }
 
-    public function testDi()
+    public function testDi(): void
     {
         echo 'test Di';
         echo PHP_EOL;

@@ -1,4 +1,9 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils;
 
@@ -30,27 +35,27 @@ class Socket
                     $client['string_data'] = json_decode($data, true);
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $client['error'] = $e->getMessage();
             // self::saveLog($client, $client_id);
         }
-        if ( !$handle) {
+        if (!$handle) {
             $result = '非法访问';
         }
         if ($data) {
             // try{
             $resultData           = self::index($client_id, $data, $handle);
-            $client['function']   = "index()";
+            $client['function']   = 'index()';
             $client['resultData'] = $resultData;
             // 如果出现参数错误，检查$resultData['data']是否输出字符串
-            if ( !is_string($resultData['data'])) {
+            if (!is_string($resultData['data'])) {
                 throw new Exception(json_encode($resultData), 10001);
             }
             $result = $resultData['data'];
             self::saveLog($client, $client_id);
         } else {
             $result             = $data;
-            $client['function'] = "NULL";
+            $client['function'] = 'NULL';
             $client['result']   = $data;
             // save_log($client, $client_id);
         }
@@ -86,7 +91,7 @@ class Socket
 
                 Gateway::bindUid($client_id, $user->id);
             }
-            if ( !$user) {
+            if (!$user) {
                 //关闭连接
                 Gateway::$registerAddress = '127.0.0.1:1236';
                 Gateway::closeClient($client_id);
@@ -102,7 +107,7 @@ class Socket
         if ($handle === 'onMessage') {
             $data   = json_decode($data, true);
             $userId = Redis::connection()->get('client_user_id_'.$client_id);
-            if ( !$userId) {
+            if (!$userId) {
                 //关闭连接
                 Gateway::$registerAddress = '127.0.0.1:1236';
                 Gateway::closeClient($client_id);
@@ -151,7 +156,7 @@ class Socket
             }
             $content['data'] = $data;
         }
-        // 关闭事件 
+        // 关闭事件
         if ($handle === 'onClose') {
             $userId = Redis::connection()->get('client_user_id_'.$client_id);
             if ($userId) {
@@ -179,7 +184,7 @@ class Socket
      * @throws Exception
      * @see  https://www.workerman.net/doc/gateway-worker/work-with-other-frameworks.html#%E5%85%B3%E4%BA%8EGatewayClient
      */
-    private static function client($params)
+    private static function client($params): void
     {
         $client_id         = $fd = 1;
         $uid               = 17;
@@ -199,7 +204,7 @@ class Socket
         Gateway::joinGroup($client_id, $groupName);
         // 将client_id从某个组中删除，不再接收该分组广播(Gateway::sendToGroup)发送的数据(当client_id下线（连接断开）时，client_id会自动从它所属的各个分组中删除)
         Gateway::leaveGroup($client_id, $groupName);
-        // 向某个分组的所有在线client_id发送数据  
+        // 向某个分组的所有在线client_id发送数据
         // $exclude_client_id,$raw可以为空
         // $exclude_client_id client_id组成的数组。$exclude_client_id数组中指定的client_id将被排除在外，不会收到本次发的消息
         // $raw 是否发送原始数据，也就是绕过gateway协议打包过程，gateway对数据不再做任何处理，直接发给客户端

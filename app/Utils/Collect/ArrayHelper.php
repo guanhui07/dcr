@@ -1,4 +1,9 @@
 <?php declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils\Collect;
 
@@ -57,9 +62,9 @@ class ArrayHelper
         }
 
         if (is_object($object)) {
-            if ( !empty($properties)) {
+            if (!empty($properties)) {
                 $className = get_class($object);
-                if ( !empty($properties[$className])) {
+                if (!empty($properties[$className])) {
                     $result = [];
                     foreach ($properties[$className] as $key => $name) {
                         if (is_int($key)) {
@@ -107,7 +112,7 @@ class ArrayHelper
     {
         $args = func_get_args();
         $res  = array_shift($args);
-        while ( !empty($args)) {
+        while (!empty($args)) {
             $next = array_shift($args);
             foreach ($next as $k => $v) {
                 if (is_int($k)) {
@@ -401,14 +406,14 @@ class ArrayHelper
 
             foreach ($groups as $group) {
                 $value = static::getValue($element, $group);
-                if ( !array_key_exists($value, $lastArray)) {
+                if (!array_key_exists($value, $lastArray)) {
                     $lastArray[$value] = [];
                 }
                 $lastArray = &$lastArray[$value];
             }
 
             if ($key === null) {
-                if ( !empty($groups)) {
+                if (!empty($groups)) {
                     $lastArray[] = $element;
                 }
             } else {
@@ -613,13 +618,13 @@ class ArrayHelper
      */
     public static function isAssociative($array, $allStrings = true): ?bool
     {
-        if ( !is_array($array) || empty($array)) {
+        if (!is_array($array) || empty($array)) {
             return false;
         }
 
         if ($allStrings) {
             foreach ($array as $key => $value) {
-                if ( !is_string($key)) {
+                if (!is_string($key)) {
                     return false;
                 }
             }
@@ -650,7 +655,7 @@ class ArrayHelper
      */
     public static function isIndexed($array, $consecutive = false): ?bool
     {
-        if ( !is_array($array)) {
+        if (!is_array($array)) {
             return false;
         }
 
@@ -662,7 +667,7 @@ class ArrayHelper
             return array_keys($array) === range(0, count($array) - 1);
         } else {
             foreach ($array as $key => $value) {
-                if ( !is_int($key)) {
+                if (!is_int($key)) {
                     return false;
                 }
             }
@@ -688,7 +693,7 @@ class ArrayHelper
     {
         if ($haystack instanceof Traversable) {
             foreach ($haystack as $value) {
-                if ($needle == $value && ( !$strict || $needle === $value)) {
+                if ($needle == $value && (!$strict || $needle === $value)) {
                     return true;
                 }
             }
@@ -732,7 +737,7 @@ class ArrayHelper
     {
         if (is_array($needles) || $needles instanceof Traversable) {
             foreach ($needles as $needle) {
-                if ( !static::isIn($needle, $haystack, $strict)) {
+                if (!static::isIn($needle, $haystack, $strict)) {
                     return false;
                 }
             }
@@ -808,10 +813,10 @@ class ArrayHelper
                 $result[$globalKey] = $array[$globalKey];
                 continue;
             }
-            if ( !isset($array[$globalKey][$localKey])) {
+            if (!isset($array[$globalKey][$localKey])) {
                 continue;
             }
-            if ( !array_key_exists($globalKey, $result)) {
+            if (!array_key_exists($globalKey, $result)) {
                 $result[$globalKey] = [];
             }
             $result[$globalKey][$localKey] = $array[$globalKey][$localKey];
@@ -880,7 +885,7 @@ class ArrayHelper
         }
 
         // Fix: If is int, stop continue find.
-        if ( !is_string($key)) {
+        if (!is_string($key)) {
             return $default;
         }
 
@@ -915,9 +920,9 @@ class ArrayHelper
 
         foreach (explode('.', $key) as $segment) {
             if ((is_array($array) && array_key_exists(
-                        $segment,
-                        $array
-                    )) || ($array instanceof ArrayAccess && $array->offsetExists($segment))
+                $segment,
+                $array
+            )) || ($array instanceof ArrayAccess && $array->offsetExists($segment))
             ) {
                 $array = $array[$segment];
             } else {
@@ -952,7 +957,7 @@ class ArrayHelper
             // If the key doesn't exist at this depth, we will just create an empty array
             // to hold the next value, allowing us to create the arrays to hold final
             // values at the correct depth. Then we'll keep digging into the array.
-            if ( !isset($array[$key]) || !is_array($array[$key])) {
+            if (!isset($array[$key]) || !is_array($array[$key])) {
                 $array[$key] = [];
             }
 
@@ -1018,7 +1023,7 @@ class ArrayHelper
         foreach ($array as $item) {
             $item = $item instanceof Collection ? $item->all() : $item;
 
-            if ( !is_array($item)) {
+            if (!is_array($item)) {
                 $result[] = $item;
             } elseif ($depth === 1) {
                 $result = array_merge($result, array_values($item));
@@ -1041,7 +1046,7 @@ class ArrayHelper
      */
     public static function findSimilar(string $need, $iterator, int $similarPercent = 45): array
     {
-        if ( !$need) {
+        if (!$need) {
             return [];
         }
 
@@ -1077,7 +1082,7 @@ class ArrayHelper
 
         foreach ($data as $key => $value) {
             // key is not a integer
-            if ( !$expectInt || !is_numeric($key)) {
+            if (!$expectInt || !is_numeric($key)) {
                 $width       = mb_strlen((string) $key, 'UTF-8');
                 $keyMaxWidth = $width > $keyMaxWidth ? $width : $keyMaxWidth;
             }
@@ -1221,7 +1226,7 @@ class ArrayHelper
         foreach ($array as $values) {
             if ($values instanceof Collection) {
                 $values = $values->all();
-            } elseif ( !is_array($values)) {
+            } elseif (!is_array($values)) {
                 continue;
             }
 

@@ -1,4 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
+
 namespace app\Utils\Time;
 
 /**
@@ -6,8 +12,6 @@ namespace app\Utils\Time;
  **/
 class DcrTime
 {
-
-
     /**
      * 格式化时间
      * @param   int     $t  时间戳
@@ -41,7 +45,6 @@ class DcrTime
         return $m . '月前';
     }
 
-
     /**
      * 时间格式化
      *
@@ -53,19 +56,19 @@ class DcrTime
     {
         $period = time() - ((is_numeric($lastTime)) ? $lastTime : strtotime($lastTime));
         if ($period < 0) {
-            return "刚刚发布";
+            return '刚刚发布';
         }
 
         if ($period < 60) {
-            return ($period <= 0 ? 1 : $period) . "秒前";
+            return ($period <= 0 ? 1 : $period) . '秒前';
         }
 
         if ($period < 3600) {
-            return round($period / 60, 0) . "分钟前";
+            return round($period / 60, 0) . '分钟前';
         }
 
         if ($period < 86400) {
-            return round($period / 3600, 0) . "小时前";
+            return round($period / 3600, 0) . '小时前';
         }
 
         if ($period < 86400 * 30) {
@@ -128,14 +131,14 @@ class DcrTime
      * @param string $date
      * @return int
      */
-    public function getUnixTimeStamp($date = "00-00-00 00:00:00")
+    public function getUnixTimeStamp($date = '00-00-00 00:00:00')
     {
         if (!$date) {
             return 0;
         }
-        [$d, $t] = explode(" ", $date);
-        [$year, $month, $day] = explode("-", $d);
-        [$hour, $minute, $second] = explode(":", $t);
+        [$d, $t] = explode(' ', $date);
+        [$year, $month, $day] = explode('-', $d);
+        [$hour, $minute, $second] = explode(':', $t);
         return mktime($hour, $minute, $second, $month, $day, $year);
     }
 

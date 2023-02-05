@@ -1,5 +1,10 @@
 <?php
 declare(strict_types = 1);
+/**
+ * The file is part of xxx/xxx
+ *
+ *
+ */
 
 namespace app\Utils;
 
@@ -17,7 +22,6 @@ use const JSON_ERROR_NONE;
  */
 class Json
 {
-
     /**
      * @param  string  $json
      * @param  bool  $assoc
