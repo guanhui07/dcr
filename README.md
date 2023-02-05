@@ -14,6 +14,11 @@
 - collection  carbon
 - dotenv
 
+### 安装
+```
+composer create-project dcr/framework
+```
+
 http: 生产不推荐，推荐使用nginx
 ```
 php -S 127.0.0.1:8001 -t ./public  
