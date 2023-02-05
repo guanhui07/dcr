@@ -1,6 +1,6 @@
 
 
-# dcr框架 - 整合各个包，然后模仿laravel 骨架 造的一个简单框架骨架
+# dcr框架 - 整合各个包，然后模仿laravel 骨架 实现的框架
 - 集成 laravel orm , restful route, predis, guzzle monolog 
 - rabbitmq, workerman websocket
 - container  facade
@@ -8,11 +8,12 @@
 -  migrate 
 -  event
 - crontab
-- middleware
+- middleware  中间件注解
 - validate
 - monolog
 - collection  carbon
 - dotenv
+- PHP8特性attributes实现了路由注解  
 
 ### 安装
 ```
