@@ -8,11 +8,12 @@
 -  migrate 
 -  event
 - crontab
-- middleware
+- middleware  中间件注解
 - validate
 - monolog
 - collection  carbon
 - dotenv
+- PHP8特性attributes实现了路由注解  
 
 http: 生产不推荐，推荐使用nginx
 ```
