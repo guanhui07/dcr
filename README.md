@@ -17,7 +17,7 @@
 
 ### 安装
 ```
-composer create-project dcr/framework
+composer create-project dcr/framework skeleton
 ```
 
 http: 生产不推荐，推荐使用nginx
