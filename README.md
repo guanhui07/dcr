@@ -39,12 +39,164 @@ command 应用
 php artisan test2
 ```
 
+## 路由注解 和 中间件注解 以及Inject注解  使用
+```php
+<?php declare(strict_types=1);
 
-默认路由 ，不推荐
-http://127.0.0.1:8001/?r=test/test2
+namespace app\Controller;
 
-restful路由
-http://127.0.0.1:8001/test
+use app\Middleware\AuthMiddleware;
+use app\Middleware\TestMiddleware;
+use app\Service\TestService;
+use dcr\Annotation\Mapping\Middlewares;
+use dcr\Annotation\Mapping\RequestMapping;
+use DI\Attribute\Inject;
+
+class MIddlewareController extends Controller
+{
+    #[Inject]
+    public TestService $testService;
+
+    #[RequestMapping(methods: 'GET , POST', path:'/test/middleware')]
+    #[Middlewares(AuthMiddleware::class, TestMiddleware::class)]
+    public function test1()
+    {
+//        $this->testService->testDi();
+        return apiResponse([]);
+    }
+}
+```
+
+## 从容器 拿对象 获取 参数
+```php
+//->all()  ->get()  ->post() 等方法
+ApplicationContext::getContainer()->get(Request::class)->all();
+//di()->(Request::class)->all();
+```
+
+## redis 操作
+```php
+$redis = Redis::connection();
+//->setex ->get ->del ->setnx 等方法 和predis一致
+```
+
+## orm model ，使用和laravel orm一致
+```php
+<?php
+declare(strict_types = 1);
+namespace app\Model;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Class UserModel
+ * @package app\Model
+ * @see https://github.com/illuminate/database
+ */
+class UserModel extends Model
+{
+    protected $table = 'user';
+}
+
+
+```
+### 控制器validate
+```php
+   #[RequestMapping(methods: "GET , POST", path:"/test/test4")]
+    public function test4($request, $response)
+    {
+        $validate = Validation::check($this->request->post ?? [], [
+            // add rule
+            ['title', 'min', 40],
+            ['freeTime', 'number'],
+        ]);
+
+        if ($validate->isFail()) {
+            var_dump($validate->getErrors());
+            var_dump($validate->firstError());
+        }
+
+        // $postData = $v->all(); // 原始数据
+        $safeData = $validate->getSafeData(); // 验证通过的安全数据
+
+        return $safeData
+    }
+```
+
+### 获取配置 需要`use DI\Attribute\Inject`
+```php
+    #[Inject]
+    public Config $config;
+
+    #[RequestMapping(methods: "GET , POST", path:"/test/config")]
+    public function config()
+    {
+        //di()->get(Config::class)->get('app.debug');
+        return $this->config->get('app.debug');
+    }
+```
+
+## 中间件 需要`app/Middleware/Kernel.php` 配置
+```php
+<?php
+
+namespace app\Middleware;
+
+use app\Exception\RuntimeException;
+use app\Middleware\Contract\MiddlewareInterface;
+
+class TestMiddleware implements MiddlewareInterface
+{
+    public function handle()
+    {
+        return static function ($request, $next) {
+//            throw new RuntimeException('未登录');
+            $response = $next->handle($request);
+            return $response;
+        };
+    }
+}
+
+```
+
+### Console 命令应用 需要在`app/Console/Kernel.php` 配置 命令类
+```php
+<?php
+declare(strict_types = 1);
+
+namespace app\Console\Command;
+
+use Inhere\Console\IO\Input;
+use Inhere\Console\IO\Output;
+use Toolkit\PFlag\FlagsParser;
+
+class Test2 extends \Inhere\Console\Command
+{
+    protected static string $name = 'test2';
+
+    protected static string $desc = 'print system ENV information';
+
+    protected function configFlags(FlagsParser $fs): void
+    {
+        // 绑定选项
+        $fs->addOptByRule('update, up', 'bool;update linux command docs to latest');
+        $fs->addOptByRule('init, i', 'bool;update linux command docs to latest');
+        $fs->addOptByRule('search, s', 'string;input keywords for search');
+
+        // - 这里没有设置必须 可以不传，获取到就是空string
+        $fs->addArg('keywords', 'the keywords for search or show docs', 'string');
+    }
+
+    protected function execute(Input $input, Output $output): void
+    {
+        $keywords = $this->flags->getOpt('search', 23);
+        var_dump($keywords);
+        $output->info('hello world ...');
+    }
+}
+
+```
+
+
 
 
 ## 依赖如下组件 并查阅文档 使用 组合了 此框架
