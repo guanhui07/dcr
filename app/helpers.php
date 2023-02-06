@@ -1,23 +1,24 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
+
 /**
  * The file is part of xxx/xxx
- *
- *
  */
 
+use app\Event\TestEvent;
+use app\Listener\TestEventListener;
 use app\Utils\Config;
 use app\Utils\Json;
 use app\Utils\Str;
 use dcr\EventInstance;
 use dcr\Request\Request;
-use Doctrine\Common\EventArgs;
 use GatewayClient\Gateway;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-if (!function_exists('debug')) {
+if ( !function_exists('debug')) {
     function debug($v): void
     {
         if (is_string($v) || is_int($v)) {
@@ -64,12 +65,12 @@ function cException($exception): void
 
     $request = Request::instance();
     //record exception log
-//    Logger::exception(basename($exception->getFile()),
+    //    Logger::exception(basename($exception->getFile()),
     // $exception->getFile(), $exception->getLine(),
-//        $exception->getMessage(), $exception->getCode(), $exception->getTraceAsString(), array(
-//        "action"    => $request->header("HOST") . $request->server("REQUEST_URI"),
-//        "server_ip" => gethostname(),
-//    ));
+    //        $exception->getMessage(), $exception->getCode(), $exception->getTraceAsString(), array(
+    //        "action"    => $request->header("HOST") . $request->server("REQUEST_URI"),
+    //        "server_ip" => gethostname(),
+    //    ));
     $log_data = '';
     $log_data .= date('Y-m-d H:i:s').' '.$exception->__toString();
 
@@ -78,13 +79,14 @@ function cException($exception): void
     return;
 }
 
-if (! function_exists('str_random')) {
+
+if ( !function_exists('str_random')) {
     /**
      * Generate a more truly "random" alpha-numeric string.
      *
      * @param  int  $length
-     * @return string
      *
+     * @return string
      * @throws \RuntimeException
      */
     function str_random($length = 16)
@@ -95,7 +97,7 @@ if (! function_exists('str_random')) {
 
 function writeLog($msg, $name = null, $logDir = null)
 {
-    if (!$name) {
+    if ( !$name) {
         $name = date('Y-m-d_H', time());
     } else {
         if ($logDir === null) {
@@ -113,7 +115,7 @@ function writeLog($msg, $name = null, $logDir = null)
         $logDir = '/'.'pre_'.'/'.date('Ym', time()).'/'.date('d', time());
     }
 
-    if (!file_exists(PROJECT_ROOT.'runtime/errlog/'.$logDir)) {
+    if ( !file_exists(PROJECT_ROOT.'runtime/errlog/'.$logDir)) {
         mkdir(PROJECT_ROOT.'runtime/errlog/'.$logDir, 0777, true);
     }
 
@@ -240,7 +242,7 @@ function xmlToArray($xml)
 }
 
 
-if (!function_exists('objToArray')) {
+if ( !function_exists('objToArray')) {
     function objToArray($o)
     {
         // return json_decode(  json_encode($o),1 );
@@ -330,7 +332,7 @@ function errorx($message = '失败', $code = 404, $data = '')
 }
 
 
-if (!function_exists('cache')) {
+if ( !function_exists('cache')) {
     function cache($key, Closure $closure, $ttl = null)
     {
         if ($result = \app\Utils\Redis::connection()->get($key)) {
@@ -347,12 +349,13 @@ function getRedis()
     return \app\Utils\Redis::connection();
 }
 
+
 function apiLog($jsonArr): void
 {
 }
 
 
-if (!function_exists('collectNew')) {
+if ( !function_exists('collectNew')) {
     /**
      * @param  null|array|Collection  $value
      * @param  bool  $toLine
@@ -375,7 +378,7 @@ if (!function_exists('collectNew')) {
     }
 }
 
-if (!function_exists('socketSend')) {
+if ( !function_exists('socketSend')) {
     function socketSend(int $uid, array $data): bool
     {
         $strData = Json::encode($data);
@@ -393,7 +396,7 @@ if (!function_exists('socketSend')) {
     }
 }
 
-if (!function_exists('retry')) {
+if ( !function_exists('retry')) {
     /**
      * $data = retry(3, function () {
      * $rand = mt_rand(1, 10);
@@ -432,12 +435,12 @@ function real_ip()
 {
     $ip = $_SERVER['REMOTE_ADDR'];
     if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && preg_match_all(
-        '#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s',
-        $_SERVER['HTTP_X_FORWARDED_FOR'],
-        $matches
-    )) {
+            '#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s',
+            $_SERVER['HTTP_X_FORWARDED_FOR'],
+            $matches
+        )) {
         foreach ($matches[0] as $xip) {
-            if (!preg_match('#^(10|172\.16|192\.168)\.#', $xip)) {
+            if ( !preg_match('#^(10|172\.16|192\.168)\.#', $xip)) {
                 $ip = $xip;
                 break;
             }
@@ -453,8 +456,6 @@ function real_ip()
 }
 
 
-
-
 function di($name = null): \DI\Container
 {
     if ($name == null) {
@@ -464,17 +465,10 @@ function di($name = null): \DI\Container
 }
 
 
-function event(string $eventName = '', array $eventArgs = []): bool
+function event($event,string $eventName = ''): bool
 {
-    $eventManager = EventInstance::instance();
-
-    // EventServiceProvider 中配置
-    //        $testEvent = new TestEvent($eventManager);
-    //        $eventManager->addEventSubscriber(new TestEventListener());
-
-    $eventArgsObj         = EventArgs::getEmptyInstance();
-    $eventArgsObj->params = $eventArgs;
-    $eventManager->dispatchEvent($eventName, $eventArgsObj);
+    $dispatcher = EventInstance::instance();
+    $dispatcher->dispatch($event, $eventName);
     return true;
 }
 
@@ -523,7 +517,7 @@ function stringToLine(string $string): string
 }
 
 
-if (!function_exists('array_multi_column')) {
+if ( !function_exists('array_multi_column')) {
     function array_multi_column(array $array, array $column): array
     {
         return array_map(function ($data) use ($column) {
@@ -532,7 +526,7 @@ if (!function_exists('array_multi_column')) {
     }
 }
 
-if (!function_exists('call')) {
+if ( !function_exists('call')) {
     /**
      * Call a callback with the arguments.
      *
@@ -630,15 +624,18 @@ function arrayToEntity(array $array, object $entity): object
     return $entity;
 }
 
+
 function request(): SymfonyRequest
 {
     return SymfonyRequest::createFromGlobals();
 }
 
+
 function reponse(): SymfonyResponse
 {
     return \dcr\Response\Response::instance();
 }
+
 
 function config(string $str)
 {
@@ -648,7 +645,7 @@ function config(string $str)
 
 function createDirectoryIfNeeded($directory): void
 {
-    if (!file_exists($directory) || !is_dir($directory)) {
+    if ( !file_exists($directory) || !is_dir($directory)) {
         mkdir($directory, 0777, true);
     }
 }

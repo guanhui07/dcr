@@ -13,12 +13,12 @@ use app\Listener\TestEventListener;
 
 /**
  * 事件
- * @see  https://www.doctrine-project.org/projects/doctrine-event-manager/en/latest/reference/index.html#setup
+ * @see  https://code.tutsplus.com/tutorials/handling-events-in-your-php-applications-using-the-symfony-eventdispatcher-component--cms-31328
  */
 class EventServiceProvider
 {
     /**
-     * @return string[]
+     * @return array
      */
     public static function getEventConfig()
     {

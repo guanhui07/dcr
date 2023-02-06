@@ -9,6 +9,7 @@ namespace app\Controller;
 
 use app\Event\TestEvent;
 use app\Facade\TestFacade;
+use app\Listener\TestEventListener;
 use app\Middleware\TestMiddleware;
 use app\Model\UserModel;
 use app\Service\Entity\ExchGiftInfo;
@@ -18,6 +19,7 @@ use app\Utils\JwtToken;
 use app\Utils\LogBase;
 use Carbon\Carbon;
 use dcr\Annotation\Mapping\RequestMapping;
+use dcr\EventInstance;
 use DI\Attribute\Inject;
 use Exception;
 use Gregwar\Captcha\CaptchaBuilder;
@@ -26,6 +28,7 @@ use Illuminate\Database\Capsule\Manager as DB;
 use Inhere\Validate\Validation;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageManager;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class TestController extends Controller
 {
@@ -130,21 +133,17 @@ class TestController extends Controller
 
     /**
      * 测试事件
-     * @see  https://github.com/inhere/php-event-manager
+     * @see  https://www.doctrine-project.org/projects/doctrine-event-manager/en/latest/reference/index.html#setup
      */
     #[RequestMapping(methods: 'GET , POST', path:'/test/event')]
     public function event(): string
     {
-        $test = request()->get('aa', 23);
-        $test = $this->request->get('ab', 24);
-        echo $test;
         $params = [
             'test' => 23,
         ];
+        event(new TestEvent($params),TestEvent::NAME);
+        // 初始化事件分发器
 
-        //        return  reponse()->setContent('abc')->send();
-
-        event(TestEvent::preFoo, $params);
         return apiResponse([]);
     }
 

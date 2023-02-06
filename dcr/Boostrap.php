@@ -8,12 +8,18 @@ declare(strict_types = 1);
 
 namespace dcr;
 
+use app\Event\TestEvent;
+use app\Listener\TestEventListener;
 use app\Provider\EventServiceProvider;
 use app\Utils\Config;
 use dcr\Annotation\RouteAnnotation;
+use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
+use Symfony\Component\EventDispatcher\DependencyInjection\RegisterListenersPass;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 /**
  * 初始化 注册 各种 env config orm 门面 事件
  * 捕获异常，错误控制
@@ -100,12 +106,14 @@ class Boostrap
      */
     protected function loadEvents(): void
     {
-        $eventManager = EventInstance::instance();
-        $configs      = EventServiceProvider::getEventConfig();
-
-        foreach ($configs as $event => $listeners) {
-            new $event($eventManager);
-            $eventManager->addEventSubscriber(new $listeners());
+        $dispatcher = EventInstance::instance();
+        $configs = EventServiceProvider::getEventConfig();
+        foreach($configs as $eventClass =>$listenerClass)
+        {
+            $listener = new  $listenerClass();
+            $dispatcher->addListener($eventClass::NAME, [$listener, 'process']);
         }
+//        $listener = new  TestEventListener();
+//        $dispatcher->addListener(TestEvent::NAME, [$listener, 'process']);
     }
 }
