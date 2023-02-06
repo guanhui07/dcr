@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * The file is part of xxx/xxx
+ * The file is part of dcr/framework
  *
  *
  */
@@ -26,7 +26,7 @@ class MIddlewareController extends Controller
 
     #[RequestMapping(methods: 'GET , POST', path:'/test/middleware')]
     #[Middlewares(AuthMiddleware::class, TestMiddleware::class)]
-    public function test1(): string
+    public function test(): string
     {
 //        $this->testService->testDi();
         return apiResponse([]);

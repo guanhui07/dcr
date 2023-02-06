@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * The file is part of xxx/xxx
+ * The file is part of dcr/framework
  *
  *
  */
@@ -56,8 +56,8 @@ class TestController extends Controller
      * 测试 log carbon collect model redis 依赖注入
      * 测试 facade
      */
-    #[RequestMapping(methods: 'GET , POST', path:'/test/test2')]
-    public function test2(): string
+    #[RequestMapping(methods: 'GET , POST', path:'/test/test')]
+    public function test(): string
     {
         // 测试 request
         $test = $this->request->get('name', 'zhangsan');
