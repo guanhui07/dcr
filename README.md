@@ -1,11 +1,11 @@
 
 
 # dcr框架 - 整合各个包，然后模仿laravel 骨架 实现的框架
-- 集成 laravel orm , restful route, predis, guzzle monolog 
+- 集成 laravel orm , restful route, predis, guzzle monolog
 - rabbitmq, workerman websocket
 - container  facade
--  console   
--  migrate 
+-  console
+-  migrate
 -  event
 - crontab
 - middleware  中间件注解
@@ -13,7 +13,7 @@
 - monolog
 - collection  carbon
 - dotenv
-- PHP8特性attributes实现了路由注解  
+- PHP8特性attributes实现了路由注解
 
 ### 安装
 ```
@@ -197,6 +197,81 @@ class Test2 extends \Inhere\Console\Command
 ```
 
 
+### event 事件
+```php
+<?php
+declare(strict_types = 1);
+namespace app\Event;
+use Symfony\Contracts\EventDispatcher\Event;
+
+/**
+ * Class TestEvent
+ */
+class TestEvent extends Event
+{
+    public const NAME = 'order.placed';
+    protected $params;
+    public function __construct($params)
+    {
+        $this->params = $params;
+    }
+    public function getParams()
+    {
+        return $this->params;
+    }
+}
+
+
+```
+### listener 监听者
+```php
+<?php
+declare(strict_types = 1);
+namespace app\Listener;
+
+use app\Event\TestEvent;
+use app\Utils\LogBase;
+use Symfony\Contracts\EventDispatcher\Event;
+
+class TestEventListener implements BaseListenerInterface
+{
+    public function process(object $event)
+    {
+        echo '打印参数'.PHP_EOL;
+        var_dump($event->getParams());
+    }
+}
+
+
+```
+
+### 触发事件
+```php
+  #[RequestMapping(methods: 'GET , POST', path:'/test/event')]
+    public function event(): string
+    {
+        $params = [
+            'test' => 23,
+        ];
+        event(new TestEvent($params),TestEvent::NAME);
+        // 初始化事件分发器
+
+        return apiResponse([]);
+    }
+```
+
+或者
+```php
+    #[RequestMapping(methods: "GET , POST", path:"/test/event")]
+    public function event($request, $response): array
+    {
+        $params = [
+            'test' => 23,
+        ];
+        $dispatcher = EventInstance::instance();
+    $dispatcher->dispatch(new TestEvent($params), TestEvent::NAME);
+    }
+```
 
 
 ## 依赖如下组件 并查阅文档 使用 组合了 此框架
