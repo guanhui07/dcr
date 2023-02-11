@@ -1,7 +1,11 @@
 
 
 # dcr框架 - 整合各个包，然后模仿laravel 骨架 实现的框架
-- 集成 laravel orm , restful route, predis, guzzle monolog
+- 集成 laravel orm 
+- restful route
+- predis
+- guzzle 
+- monolog
 - rabbitmq, workerman websocket
 - container  facade
 -  console
