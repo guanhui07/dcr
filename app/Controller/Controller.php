@@ -20,9 +20,6 @@ use dcr\Request as DcrRequest;
 use dcr\Request\Request;
 use dcr\Response\Response;
 use DI\Attribute\Inject;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Middlewares\Utils\Dispatcher;
 use Exception;
 
@@ -135,7 +132,7 @@ class Controller
         return self::$user['id'] ?? 0;
     }
 
-    public function getUser(): Model|Collection|Builder|array|null
+    public function getUser(): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
         return UserModel::query()->find($this->getUserId());
     }

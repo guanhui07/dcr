@@ -8,6 +8,7 @@ declare(strict_types = 1);
 
 namespace dcr;
 
+use dcr\Utils\ApplicationContext;
 use DI\ContainerBuilder;
 use Exception;
 
@@ -46,6 +47,7 @@ class Container
             //
             //                $container->make($config,[]);
             //            }
+            ApplicationContext::setContainer($container);
             self::$ins = $container;
             return $container;
         }

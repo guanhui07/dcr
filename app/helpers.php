@@ -9,8 +9,10 @@ use app\Listener\TestEventListener;
 use app\Utils\Config;
 use app\Utils\Json;
 use app\Utils\Str;
+use dcr\Container;
 use dcr\EventInstance;
 use dcr\Request\Request;
+use dcr\Utils\ApplicationContext;
 use GatewayClient\Gateway;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
@@ -458,10 +460,10 @@ function real_ip()
 
 function di($name = null): \DI\Container
 {
-    if ($name == null) {
-        return \dcr\Container::instance();
+    if ($name === null) {
+        return ApplicationContext::getContainer();
     }
-    return \dcr\Container::instance()->get($name);
+    return ApplicationContext::getContainer()->get($name);
 }
 
 
