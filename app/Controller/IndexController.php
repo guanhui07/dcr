@@ -7,7 +7,10 @@
 
 namespace app\Controller;
 
+use app\Middleware\AuthMiddleware;
+use app\Middleware\TestMiddleware;
 use app\Utils\Mq\MqProducer;
+use dcr\Annotation\Mapping\Middlewares;
 use dcr\Annotation\Mapping\RequestMapping;
 use Exception;
 
@@ -21,14 +24,22 @@ class IndexController extends Controller
         parent::__construct();
     }
 
-    /**
-     * 测试使用 rabbitmq 生产者
-     * @return bool|string
-     * @throws Exception
-     */
-    #[RequestMapping(methods: 'GET , POST', path:'/')]
-    public function test1(): bool|string
+    #[RequestMapping(methods: "GET , POST", path:"/index/test1")]
+    public function test(): string
     {
-        return apiResponse('hello world');
+        return 'hello world';
+    }
+
+
+    /**
+     * 测试路由注解
+     * 测试中间件注解
+     * @return string
+     */
+    #[RequestMapping(methods: "GET , POST", path:"/index/test2")]
+    #[Middlewares(AuthMiddleware::class, TestMiddleware::class)]
+    public function test2(): string
+    {
+        return 'test 1121';
     }
 }

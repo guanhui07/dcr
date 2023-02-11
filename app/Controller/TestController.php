@@ -148,6 +148,12 @@ class TestController extends Controller
         return apiResponse([]);
     }
 
+    #[RequestMapping(methods: "GET , POST", path:"/test/config")]
+    public function config()
+    {
+        return config('app.debug');
+    }
+
     /**
      * 测试 dto
      */
