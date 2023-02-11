@@ -5,11 +5,20 @@ declare(strict_types = 1);
 
 require_once('./vendor/autoload.php');
 
+use app\Repository\TestRepository;
+use dcr\Boostrap;
 use dcr\Container;
 use Workerman\Crontab\Crontab as WmCrontab;
 use Workerman\Worker;
 
 define('PROJECT_ROOT', dirname(__DIR__).'/');
+! defined('BASE_PATH') && define('BASE_PATH', dirname(__DIR__, 1));
+$container = Container::instance();
+
+// 初始化 注册 config env  db orm  facade门面
+/** @var Boostrap $bootstrap */
+$bootstrap = $container->make(Boostrap::class);
+$bootstrap->run();
 /**
  * @see https://github.com/walkor/crontab
  * Class Crontab
@@ -33,19 +42,13 @@ class crontab
         $worker = new Worker();
 
         $worker->onWorkerStart = static function () {
-            $phpPath = '/usr/local/Cellar/php/8.1.9/bin/php  ';
-            $artisanPath = dirname(__DIR__).'/artisan ';
-            $comand = $phpPath . $artisanPath;
-            // Execute the function in the first second of every minute.
+//            new WmCrontab('*/1  * * * * *', function(){
+//                echo date('Y-m-d H:i:s')."\n";
+//            });
             new WmCrontab('*/1  * * * * *', function(){
-                echo date('Y-m-d H:i:s')."\n";
+                di()->get(TestRepository::class)->test();
             });
 
-            //每2秒执行一次
-            new WmCrontab('*/2  * * * * *', function()use ($comand){
-                $output= shell_exec( $comand .'test2');
-                var_dump($output);
-            });
         };
 
         Worker::runAll();

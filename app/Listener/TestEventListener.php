@@ -14,7 +14,7 @@ class TestEventListener implements BaseListenerInterface
      */
     public function process(object $event)
     {
-        echo '打印参数'.PHP_EOL;
+        echo '测试event:打印参数'.PHP_EOL;
         var_dump($event->getParams());
     }
 }

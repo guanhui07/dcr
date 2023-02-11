@@ -15,6 +15,7 @@ use app\Model\UserModel;
 use app\Service\Entity\ExchGiftInfo;
 use app\Service\Entity\TestEntity;
 use app\Service\TestService;
+use app\Service\UserService;
 use app\Utils\JwtToken;
 use app\Utils\LogBase;
 use Carbon\Carbon;
@@ -216,5 +217,12 @@ class TestController extends Controller
 //        $token = '1813bef4c03caef6ec45380a7246d110';
         $arr = di()->get(JwtToken::class)->decode($token);
         return apiResponse($arr);
+    }
+
+    #[RequestMapping(methods: "GET", path:"/test/aop")]
+    public function aop()
+    {
+        echo Carbon::now()->toDateTimeString();
+        return (new UserService())->first();
     }
 }

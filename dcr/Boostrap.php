@@ -15,6 +15,7 @@ use app\Utils\Config;
 use dcr\Annotation\RouteAnnotation;
 use DI\ContainerBuilder;
 use Dotenv\Dotenv;
+use Hyperf\AopIntegration\ClassLoader;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
@@ -64,6 +65,9 @@ class Boostrap
         Facade::instance();
         // 事件
         $this->loadEvents();
+
+        // aop
+//        ClassLoader::init();
     }
 
     /**

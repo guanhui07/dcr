@@ -2,14 +2,13 @@
 declare(strict_types = 1);
 /**
  * The file is part of dcr/framework
- *
- *
  */
 
 namespace app\Repository;
 
 //不能用laravel的门面 Illuminate\Support\Facades\DB;
 use Illuminate\Database\Capsule\Manager as DB;
+use Illuminate\Support\Collection;
 
 class TestRepository
 {
@@ -19,12 +18,12 @@ class TestRepository
         echo 'test Di';
     }
 
-    public function test1(): \Illuminate\Support\Collection
+    public function test(): Collection
     {
         $allProject = DB::table('airdrop_log_detail')->where('id', '>', 1)
             ->orderBy('id', 'desc')->get();
-//        $allProject = objToArray($allProject);
-        //        debug($allProject);
+        //        $allProject = objToArray($allProject);
+        debug($allProject);
         return $allProject;
     }
 

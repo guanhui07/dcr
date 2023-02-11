@@ -5,15 +5,33 @@ declare(strict_types = 1);
 
 require_once('./vendor/autoload.php');
 
-use app\Console\BaseCommand;
 use app\Console\BaseInterface;
 use app\Worker\Events;
+use dcr\Container;
 use GatewayWorker\BusinessWorker;
 use GatewayWorker\Gateway;
 use GatewayWorker\Register;
 use Workerman\Worker;
 
 define('PROJECT_ROOT', dirname(__DIR__).'/');
+
+
+class BaseCommand
+{
+    public function __construct()
+    {
+        $container = Container::instance();
+
+        // 初始化config env  db orm  facade门面
+        $bootstrap = $container->make(\dcr\Boostrap::class);
+        $bootstrap->run();
+    }
+
+    public function handle(): void
+    {
+        // TODO: Implement handle() method.
+    }
+}
 
 /**
  * Class startWs
@@ -27,7 +45,7 @@ class startWs extends BaseCommand implements BaseInterface
     }
 
 
-    public function handle()
+    public function handle():void
     {
 //        global $argv;
         //        $action = $this->argument('action');

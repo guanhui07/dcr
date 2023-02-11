@@ -21,7 +21,7 @@ class Kernel
     public static function getCommands(): array
     {
         return [
-            \app\Console\Command\Test2::class,
+            \app\Console\Command\TestCommand::class,
             \app\Console\Command\Test2Consumer::class,
         ];
     }
