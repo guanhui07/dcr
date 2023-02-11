@@ -30,7 +30,7 @@ php ./bin/startWs.php start
 ```
 crontab: 基础于workerman crontab
 ```
-php ./bin/crontab.php start  == composer crontab
+php ./bin/crontab.php start  
 ```
 
 
@@ -273,6 +273,28 @@ class TestEventListener implements BaseListenerInterface
     }
 ```
 
+### crontab 秒级定时任务 使用的workerman crontab
+```php
+<?php
+namespace app\Crontab;
+use app\Crontab\Contract\CrontabInterface;
+/**
+ *
+ * 需要在 /config/crontab.php 配置
+ */
+class TestCrontab implements CrontabInterface
+{
+    public $name = 'test';
+    public $desc = 'just test demo';
+
+    public function execute(): void
+    {
+        echo 'test crontab'.PHP_EOL;
+//        di()->get(TestRepository::class)->test1();
+//        di()->get(TestRepository::class)->fromRepos();
+    }
+}
+```
 
 ## 依赖如下组件 并查阅文档 使用 组合了 此框架
 ```
