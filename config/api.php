@@ -13,11 +13,20 @@ return [
     		'app_id'=>'wxf2f211111111111111a',
     		'app_secret'=>'fdsf4211111111111111111',
     	],
+    	// 开放平台
+    	'open' =>[
+    		'app_id'=>'wx2c111111111111110bc',
+    		'app_secret'=>'fdsf4211111111111111111',
+    	],
+    	// 企业微信
+    	'work' =>[
+    		'app_id'=>'fdsf4211111111111111111',
+    	],
     ],
     // 七牛
     'qiniu' => [
-        'access_key'=>'ggVg2q11111111111111eS66A2226O',
-        'secret_key'=>'fdsf4211111111111111111-Hong2Q6',
+        'access_key'=>'ggVg2q11111111111111eSKPA222O',
+        'secret_key'=>'fdsf4211111111111111111-Hong2Q',
         'bucket' =>[
             'name'=>'tuigua-bucket',
             'protocol'=>'https://',
@@ -27,7 +36,7 @@ return [
     // 阿里云
     'aliyun' => [
         'accessKeyId'=>'LT1111111113gFhz1222UT',
-        'accessKeySecret'=>'4f111111111asM666D222S66',
+        'accessKeySecret'=>'4f111111111asMOo9UD222Sk9',
         'signName'=>'推瓜',
         'template'=>[
             'send_code'=>'SMS_2111111219',//发送验证码

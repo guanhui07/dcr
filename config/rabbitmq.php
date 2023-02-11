@@ -1,8 +1,9 @@
 <?php
+// 配置文件
 return [
     // 连接信息
     'AMQP' => [
-        'host' => '127.0.0.1',
+        'host' => '127.0.0.1',   //连接rabbitmq,此为安装rabbitmq服务器
         'port' => '5672',
         'username' => 'guest',
         'password' => 'guest',
@@ -18,11 +19,11 @@ return [
         'consumer_tag' => 'order',
     ],
     // /mq/test1
-    'test_pay_queue' => [
+    'balance_pay_queue' => [
         'exchange_name' => 'topic_exchange',
         'exchange_type' => 'topic',
-        'route_key' => 'test_pay.exchange',
-        'queue_name' => 'test_pay.exchange.test_pay_queue',
-        'consumer_tag' => 'test_pay',
+        'route_key' => 'balance_pay.exchange',
+        'queue_name' => 'balance_pay.exchange.balance_pay_queue',
+        'consumer_tag' => 'balance_pay',
     ],
 ];

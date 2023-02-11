@@ -26,6 +26,7 @@
     "ext-redis": "*",
     "ext-simplexml": "*",
     "ext-swoole": "*",
+    "doctrine/annotations": "^2.0",
     "doctrine/event-manager": "^1.1",
     "doctrine/instantiator": "^1.5",
     "doctrine/migrations": "^3.5",
@@ -51,6 +52,7 @@
     "predis/predis": "^2.0",
     "qiniu/php-sdk": "^7.7",
     "spatie/image": "^2.2",
+    "symfony/event-dispatcher": "^6.2",
     "symfony/finder": "^6.2",
     "symfony/http-kernel": "^6.2",
     "vlucas/phpdotenv": "^5.4",
@@ -62,6 +64,7 @@
   "require-dev": {
     "phpunit/php-timer": "^5.0",
     "phpunit/phpunit": "^9.5",
+    "friendsofphp/php-cs-fixer": "^3.0.0",
     "roave/security-advisories": "dev-latest",
     "swoole/ide-helper": "~5.0.0"
   },
