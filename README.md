@@ -7,7 +7,8 @@
 - guzzle 
 - monolog
 - rabbitmq, workerman websocket
-- container  facade
+- container  
+-  facade
 -  console
 -  migrate
 -  event
@@ -17,7 +18,7 @@
 - monolog
 - collection  carbon
 - dotenv
-- PHP8特性attributes实现了路由注解
+- PHP8特性attributes以及反射实现路由注解
 
 ### 安装
 ```
