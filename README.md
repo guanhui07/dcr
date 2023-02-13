@@ -174,9 +174,10 @@ use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
 use Toolkit\PFlag\FlagsParser;
 
-class Test2 extends \Inhere\Console\Command
+class Test extends \Inhere\Console\Command
 {
-    protected static string $name = 'test2';
+    // php artisan test 
+    protected static string $name = 'test';
 
     protected static string $desc = 'print system ENV information';
 
