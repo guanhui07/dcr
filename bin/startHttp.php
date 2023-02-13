@@ -3,9 +3,9 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Adapterman\Adapterman;
-use dcr\Boostrap;
-use dcr\Container;
-use dcr\HttpKernel;
+use Dcr\Boostrap;
+use Dcr\Container;
+use Dcr\HttpKernel;
 use Workerman\Worker;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
@@ -43,7 +43,7 @@ function run(): string
     ob_start();
     global $container;
     $responseStr = $container->make(HttpKernel::class)->run($container);
-    $response = dcr\Response\Response::instance();
+    $response = Dcr\Response\Response::instance();
     $responseStr = is_array($responseStr) ? json_encode($responseStr) : $responseStr;
     if ($responseStr instanceof SymfonyResponse) {
         return $responseStr;

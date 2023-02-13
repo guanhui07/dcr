@@ -1,19 +1,19 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace dcr\Request;
+namespace Dcr\Request;
 
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use dcr\Request as DcrRequest;
+use Dcr\Request as DcrRequest;
 
 /**
  * Class Request
- * @package dcr\Request
+ * @package Dcr\Request
  * @see https://symfony.com/doc/current/components/http_foundation.html#request
  */
 class Request

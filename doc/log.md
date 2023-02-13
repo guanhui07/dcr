@@ -2,7 +2,7 @@
 ## Log 日志
 
 ```php
-use app\Utils\Log;
+use App\Utils\Log;
    
 #[Inject]
 public Log $logger;

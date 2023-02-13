@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace database\migrations;
 
-use app\Model\UserModel;
+use App\Model\UserModel;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 //use Illuminate\Support\Facades\DB; // 不能用laravel的门面

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace app\Aspect;
+namespace App\Aspect;
 
-use app\Service\UserService;
+use App\Service\UserService;
 use Hyperf\Di\Aop\ProceedingJoinPoint;
 use Hyperf\Di\Exception\Exception;
 

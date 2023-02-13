@@ -9,7 +9,7 @@
 declare(strict_types = 1);
 
 
-namespace app\Console\Command;
+namespace App\Console\Command;
 
 use Inhere\Console\Command;
 use Inhere\Console\IO\Input;

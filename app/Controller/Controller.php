@@ -1,24 +1,24 @@
 <?php declare(strict_types=1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Controller;
+namespace App\Controller;
 
-use app\Middleware\Contract\MiddlewareInterface;
-use app\Middleware\Kernel;
-use app\Model\UserModel;
-use app\Traits\BaseRequest;
-use app\Utils\Config;
-use app\Utils\Enviroment;
-use app\Utils\JwtToken;
-use app\Utils\Log;
-use app\Utils\Redis;
-use dcr\Request as DcrRequest;
-use dcr\Request\Request;
-use dcr\Response\Response;
+use App\Middleware\Contract\MiddlewareInterface;
+use App\Middleware\Kernel;
+use App\Model\UserModel;
+use App\Traits\BaseRequest;
+use App\Utils\Config;
+use App\Utils\Enviroment;
+use App\Utils\JwtToken;
+use App\Utils\Log;
+use App\Utils\Redis;
+use Dcr\Request as DcrRequest;
+use Dcr\Request\Request;
+use Dcr\Response\Response;
 use DI\Attribute\Inject;
 use Middlewares\Utils\Dispatcher;
 use Exception;

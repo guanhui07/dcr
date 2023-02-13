@@ -1,18 +1,18 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace dcr;
+namespace Dcr;
 
-use app\Event\TestEvent;
-use app\Listener\TestEventListener;
-use app\Provider\EventServiceProvider;
-use app\Utils\Config;
-use dcr\Annotation\RouteAnnotation;
+use App\Event\TestEvent;
+use App\Listener\TestEventListener;
+use App\Provider\EventServiceProvider;
+use App\Utils\Config;
+use Dcr\Annotation\RouteAnnotation;
 use DI\ContainerBuilder;
 use Dotenv\Dotenv;
 use Hyperf\AopIntegration\ClassLoader;
@@ -35,9 +35,8 @@ class Boostrap
         //注解路由 扫描控制器目录 注解路由 解析 add route
         di()->get(RouteAnnotation::class)->handle();
 
-        header('Content-type: text/html; charset=utf-8');
         $this->loadDotEnv();
-        \dcr\Router::load(PROJECT_ROOT.'routes');
+        \Dcr\Router::load(PROJECT_ROOT.'routes');
 
         $config = Config::get('app');
         define('DEBUG', $config['debug']); // online set false

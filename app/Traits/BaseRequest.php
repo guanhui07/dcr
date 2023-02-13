@@ -1,15 +1,15 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Traits;
+namespace App\Traits;
 
-use app\Utils\LogBase;
-use app\Utils\Str;
+use App\Utils\LogBase;
+use App\Utils\Str;
 use Illuminate\Support\Facades\DB;
 use Qiniu\Auth as AuthQi;
 use Qiniu\Storage\UploadManager;

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace app\Listener;
+namespace App\Listener;
 
 
 interface BaseListenerInterface

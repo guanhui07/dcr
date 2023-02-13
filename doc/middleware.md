@@ -24,13 +24,13 @@
 ```php
 <?php declare(strict_types=1);
 
-namespace app\Controller;
+namespace App\Controller;
 
-use app\Middleware\AuthMiddleware;
-use app\Middleware\TestMiddleware;
-use app\Service\TestService;
-use dcr\Annotation\Mapping\Middlewares;
-use dcr\Annotation\Mapping\RequestMapping;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\TestMiddleware;
+use App\Service\TestService;
+use Dcr\Annotation\Mapping\Middlewares;
+use Dcr\Annotation\Mapping\RequestMapping;
 use DI\Attribute\Inject;
 
 class MIddlewareController extends Controller
@@ -72,10 +72,10 @@ public function test(): string
 declare(strict_types = 1);
 
 
-namespace app\Middleware;
+namespace App\Middleware;
 
-use app\Exception\RuntimeException;
-use app\Middleware\Contract\MiddlewareInterface;
+use App\Exception\RuntimeException;
+use App\Middleware\Contract\MiddlewareInterface;
 
 class AuthMiddleware implements MiddlewareInterface
 {

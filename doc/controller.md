@@ -1,13 +1,13 @@
 ## controller
 
 ```php
-namespace app\Controller;
+namespace App\Controller;
 
-use app\Middleware\AuthMiddleware;
-use app\Middleware\TestMiddleware;
-use app\Utils\Mq\MqProducer;
-use dcr\Annotation\Mapping\Middlewares;
-use dcr\Annotation\Mapping\RequestMapping;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\TestMiddleware;
+use App\Utils\Mq\MqProducer;
+use Dcr\Annotation\Mapping\Middlewares;
+use Dcr\Annotation\Mapping\RequestMapping;
 use Exception;
 
 class IndexController extends Controller
@@ -47,27 +47,27 @@ class IndexController extends Controller
 ```php
 <?php declare(strict_types=1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Controller;
+namespace App\Controller;
 
-use app\Event\TestEvent;
-use app\Facade\TestFacade;
-use app\Listener\TestEventListener;
-use app\Middleware\TestMiddleware;
-use app\Model\UserModel;
-use app\Service\Entity\ExchGiftInfo;
-use app\Service\Entity\TestEntity;
-use app\Service\TestService;
-use app\Service\UserService;
-use app\Utils\JwtToken;
-use app\Utils\LogBase;
+use App\Event\TestEvent;
+use App\Facade\TestFacade;
+use App\Listener\TestEventListener;
+use App\Middleware\TestMiddleware;
+use App\Model\UserModel;
+use App\Service\Entity\ExchGiftInfo;
+use App\Service\Entity\TestEntity;
+use App\Service\TestService;
+use App\Service\UserService;
+use App\Utils\JwtToken;
+use App\Utils\LogBase;
 use Carbon\Carbon;
-use dcr\Annotation\Mapping\RequestMapping;
-use dcr\EventInstance;
+use Dcr\Annotation\Mapping\RequestMapping;
+use Dcr\EventInstance;
 use DI\Attribute\Inject;
 use Exception;
 use Gregwar\Captcha\CaptchaBuilder;

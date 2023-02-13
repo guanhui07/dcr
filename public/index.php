@@ -2,12 +2,14 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
-use app\Utils\Json;
-use dcr\Boostrap;
-use dcr\Container;
-use dcr\HttpKernel;
+use App\Utils\Json;
+use Dcr\Boostrap;
+use Dcr\Container;
+use Dcr\HttpKernel;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 define('PROJECT_ROOT', dirname(__DIR__).'/');
+! defined('BASE_PATH') && define('BASE_PATH', dirname(__DIR__, 1));
+header('Content-type: text/html; charset=utf-8');
 
 $container = Container::instance();
 
@@ -27,7 +29,7 @@ if ($responseStr instanceof SymfonyResponse) {
 }
 
 // response
-$response = dcr\Response\Response::instance();
+$response = Dcr\Response\Response::instance();
 $response->setContent($responseStr);
 $response->send();
 

@@ -1,15 +1,15 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Middleware;
+namespace App\Middleware;
 
-use app\Exception\RuntimeException;
-use app\Middleware\Contract\MiddlewareInterface;
+use App\Exception\RuntimeException;
+use App\Middleware\Contract\MiddlewareInterface;
 
 class AuthMiddleware implements MiddlewareInterface
 {

@@ -21,6 +21,6 @@ return [
     ],
     'aspects' => [
         // 这里写入对应的 Aspect
-        app\Aspect\DebugAspect::class,
+        App\Aspect\DebugAspect::class,
     ]
 ];

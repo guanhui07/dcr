@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Utils\Collect;
+namespace App\Utils\Collect;
 
 use ArrayAccess;
 use Closure;

@@ -48,13 +48,13 @@ php artisan test2
 ```php
 <?php declare(strict_types=1);
 
-namespace app\Controller;
+namespace App\Controller;
 
-use app\Middleware\AuthMiddleware;
-use app\Middleware\TestMiddleware;
-use app\Service\TestService;
-use dcr\Annotation\Mapping\Middlewares;
-use dcr\Annotation\Mapping\RequestMapping;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\TestMiddleware;
+use App\Service\TestService;
+use Dcr\Annotation\Mapping\Middlewares;
+use Dcr\Annotation\Mapping\RequestMapping;
 use DI\Attribute\Inject;
 
 class MIddlewareController extends Controller
@@ -89,12 +89,12 @@ $redis = Redis::connection();
 ```php
 <?php
 declare(strict_types = 1);
-namespace app\Model;
+namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UserModel
- * @package app\Model
+ * @package App\Model
  * @see https://github.com/illuminate/database
  */
 class UserModel extends Model
@@ -144,10 +144,10 @@ class UserModel extends Model
 ```php
 <?php
 
-namespace app\Middleware;
+namespace App\Middleware;
 
-use app\Exception\RuntimeException;
-use app\Middleware\Contract\MiddlewareInterface;
+use App\Exception\RuntimeException;
+use App\Middleware\Contract\MiddlewareInterface;
 
 class TestMiddleware implements MiddlewareInterface
 {
@@ -168,7 +168,7 @@ class TestMiddleware implements MiddlewareInterface
 <?php
 declare(strict_types = 1);
 
-namespace app\Console\Command;
+namespace App\Console\Command;
 
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\Output;
@@ -207,7 +207,7 @@ class Test extends \Inhere\Console\Command
 ```php
 <?php
 declare(strict_types = 1);
-namespace app\Event;
+namespace App\Event;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -233,10 +233,10 @@ class TestEvent extends Event
 ```php
 <?php
 declare(strict_types = 1);
-namespace app\Listener;
+namespace App\Listener;
 
-use app\Event\TestEvent;
-use app\Utils\LogBase;
+use App\Event\TestEvent;
+use App\Utils\LogBase;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class TestEventListener implements BaseListenerInterface
@@ -282,8 +282,8 @@ class TestEventListener implements BaseListenerInterface
 ### crontab 秒级定时任务 使用的workerman crontab
 ```php
 <?php
-namespace app\Crontab;
-use app\Crontab\Contract\CrontabInterface;
+namespace App\Crontab;
+use App\Crontab\Contract\CrontabInterface;
 /**
  *
  * 需要在 /config/crontab.php 配置

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace app\Listener;
+namespace App\Listener;
 
-use app\Event\TestEvent;
-use app\Utils\LogBase;
+use App\Event\TestEvent;
+use App\Utils\LogBase;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class TestEventListener implements BaseListenerInterface

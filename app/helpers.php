@@ -1,18 +1,18 @@
 <?php declare(strict_types = 1);
 
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  */
 
-use app\Event\TestEvent;
-use app\Listener\TestEventListener;
-use app\Utils\Config;
-use app\Utils\Json;
-use app\Utils\Str;
-use dcr\Container;
-use dcr\EventInstance;
-use dcr\Request\Request;
-use dcr\Utils\ApplicationContext;
+use App\Event\TestEvent;
+use App\Listener\TestEventListener;
+use App\Utils\Config;
+use App\Utils\Json;
+use App\Utils\Str;
+use Dcr\Container;
+use Dcr\EventInstance;
+use Dcr\Request\Request;
+use Dcr\Utils\ApplicationContext;
 use GatewayClient\Gateway;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
@@ -337,18 +337,18 @@ function errorx($message = '失败', $code = 404, $data = '')
 if ( !function_exists('cache')) {
     function cache($key, Closure $closure, $ttl = null)
     {
-        if ($result = \app\Utils\Redis::connection()->get($key)) {
+        if ($result = \App\Utils\Redis::connection()->get($key)) {
             return unserialize($result);
         }
         $result = $closure($ttl);
-        \app\Utils\Redis::connection()->set($key, serialize($result), $ttl);
+        \App\Utils\Redis::connection()->set($key, serialize($result), $ttl);
         return $result;
     }
 }
 
 function getRedis()
 {
-    return \app\Utils\Redis::connection();
+    return \App\Utils\Redis::connection();
 }
 
 
@@ -635,7 +635,7 @@ function request(): SymfonyRequest
 
 function reponse(): SymfonyResponse
 {
-    return \dcr\Response\Response::instance();
+    return \Dcr\Response\Response::instance();
 }
 
 

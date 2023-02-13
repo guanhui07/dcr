@@ -1,20 +1,20 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace dcr\Facade;
+namespace Dcr\Facade;
 
-use app\Service\Test2Service;
+use App\Service\Test2Service;
 use Guanhui07\Facade\AbstractFacade;
 
 /**
  * 门面
  * Class TestFacade
- * @package dcr\Facade
+ * @package Dcr\Facade
  * @see https://github.com/guanhui07/facade
  */
 class TestFacade extends AbstractFacade

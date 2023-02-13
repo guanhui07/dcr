@@ -1,13 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-//namespace app\Command;
+//namespace App\Command;
 
 require_once('./vendor/autoload.php');
 
-use app\Console\BaseInterface;
-use app\Worker\Events;
-use dcr\Container;
+use App\Console\BaseInterface;
+use App\Worker\Events;
+use Dcr\Container;
 use GatewayWorker\BusinessWorker;
 use GatewayWorker\Gateway;
 use GatewayWorker\Register;
@@ -23,7 +23,7 @@ class BaseCommand
         $container = Container::instance();
 
         // 初始化config env  db orm  facade门面
-        $bootstrap = $container->make(\dcr\Boostrap::class);
+        $bootstrap = $container->make(\Dcr\Boostrap::class);
         $bootstrap->run();
     }
 

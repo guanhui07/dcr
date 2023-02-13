@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Console\Command;
+namespace App\Console\Command;
 
 use Inhere\Console\Command;
 use Inhere\Console\IO\Input;

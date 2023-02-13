@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace dcr;
+namespace Dcr;
 
 use FastRoute\Dispatcher\GroupCountBased;
 use FastRoute\RouteCollector;
 use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use dcr\Route\Route as RouteObject;
+use Dcr\Route\Route as RouteObject;
 use function array_diff;
 use function array_values;
 use function class_exists;

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace dcr;
+namespace Dcr;
 
-use app\Console\Kernel;
+use App\Console\Kernel;
 use Exception;
 use Inhere\Console\Application;
 use Inhere\Console\IO\Input;
@@ -17,7 +17,7 @@ use Inhere\Console\IO\Output;
 /**
  * 命令行应用 初始化 绑定命令类
  * Class CommandBootstrap
- * @package dcr
+ * @package Dcr
  * @see https://github.com/inhere/php-console/wiki
  */
 class CommandBootstrap

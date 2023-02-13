@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace app\Crontab\Contract;
+namespace App\Crontab\Contract;
 
 interface CrontabInterface
 {

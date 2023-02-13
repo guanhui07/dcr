@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace dcr\Annotation\Mapping;
+namespace Dcr\Annotation\Mapping;
 
 use Attribute;
 

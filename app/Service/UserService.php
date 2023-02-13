@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace app\Service;
+namespace App\Service;
 
 class UserService
 {

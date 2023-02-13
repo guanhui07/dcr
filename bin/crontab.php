@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 require_once('./vendor/autoload.php');
 
-use dcr\Boostrap;
-use dcr\Container;
+use Dcr\Boostrap;
+use Dcr\Container;
 use Workerman\Crontab\Crontab as WmCrontab;
 use Workerman\Worker;
 
@@ -20,7 +20,7 @@ $bootstrap->run();
 /**
  * @see https://github.com/walkor/crontab
  * Class Crontab
- * @package app\Command
+ * @package App\Command
  */
 class crontab
 {

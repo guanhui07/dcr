@@ -1,13 +1,13 @@
 #!/usr/bin/env php
 <?php
 
-define('DCR_START', microtime(true));
+define('Dcr_START', microtime(true));
 
 require __DIR__.'/vendor/autoload.php';
 
-use dcr\Boostrap;
-use dcr\CommandBootstrap;
-use dcr\Container;
+use Dcr\Boostrap;
+use Dcr\CommandBootstrap;
+use Dcr\Container;
 define('PROJECT_ROOT', (__DIR__).'/');
 $time = set_time_limit(0);
 $container = Container::instance();

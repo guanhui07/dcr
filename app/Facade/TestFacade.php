@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Facade;
+namespace App\Facade;
 
-use app\Service\Test2Service;
+use App\Service\Test2Service;
 use Guanhui07\Facade\AbstractFacade;
 
 /**

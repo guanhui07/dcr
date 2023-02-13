@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Controller;
+namespace App\Controller;
 
-use app\Utils\Mq\MqProducer;
-use dcr\Annotation\Mapping\RequestMapping;
+use App\Utils\Mq\MqProducer;
+use Dcr\Annotation\Mapping\RequestMapping;
 use Exception;
 
 class MqController extends Controller

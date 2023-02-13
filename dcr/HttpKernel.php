@@ -1,17 +1,17 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace dcr;
+namespace Dcr;
 
-use app\Middleware\Contract\MiddlewareInterface;
-use app\Middleware\Kernel;
-use app\Utils\Json;
-use dcr\Route\Route;
+use App\Middleware\Contract\MiddlewareInterface;
+use App\Middleware\Kernel;
+use App\Utils\Json;
+use Dcr\Route\Route;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
@@ -71,7 +71,7 @@ class HttpKernel
 
         $controller = ucfirst(array_shift($routerArr)).'Controller';
         $action     = array_pop($routerArr);
-        $class_name = 'app\\controller\\'.$controller;
+        $class_name = 'App\\controller\\'.$controller;
         if (!file_exists(PROJECT_ROOT.'./app/controller/'.$controller.'.php') || !class_exists($class_name)) {
             return false;
         }

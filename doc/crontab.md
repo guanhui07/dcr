@@ -10,17 +10,17 @@
 <?php
 declare(strict_types = 1);
 
-namespace app\Crontab;
+namespace App\Crontab;
 
 
-use app\Crontab\Contract\CrontabInterface;
-use app\Repository\TestRepository;
+use App\Crontab\Contract\CrontabInterface;
+use App\Repository\TestRepository;
 
 /**
  *
  * 需要在 /config/crontab.php 配置
  * Class TestCrontab
- * @package app\Crontab
+ * @package App\Crontab
  */
 class TestCrontab implements CrontabInterface
 {
@@ -42,7 +42,7 @@ class TestCrontab implements CrontabInterface
 
 ```php
 <?php
-use app\Crontab\TestCrontab;
+use App\Crontab\TestCrontab;
 
 return [
     'crontab' => [

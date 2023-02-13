@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Service\Entity;
+namespace App\Service\Entity;
 
-use app\Utils\SplBean;
+use App\Utils\SplBean;
 
 class TestEntity extends SplBean
 {

@@ -1,18 +1,18 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace dcr\Response;
+namespace Dcr\Response;
 
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 /**
  * Class Response
- * @package dcr\Response
+ * @package Dcr\Response
  * @see https://symfony.com/doc/current/components/http_foundation.html#response
  */
 class Response

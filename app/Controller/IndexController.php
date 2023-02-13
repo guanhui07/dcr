@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Controller;
+namespace App\Controller;
 
-use app\Middleware\AuthMiddleware;
-use app\Middleware\TestMiddleware;
-use app\Utils\Mq\MqProducer;
-use dcr\Annotation\Mapping\Middlewares;
-use dcr\Annotation\Mapping\RequestMapping;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\TestMiddleware;
+use App\Utils\Mq\MqProducer;
+use Dcr\Annotation\Mapping\Middlewares;
+use Dcr\Annotation\Mapping\RequestMapping;
 use Exception;
 
 class IndexController extends Controller

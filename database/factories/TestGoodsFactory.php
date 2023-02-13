@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(app\Model\UserModel::class, function (Faker $faker) {
+$factory->define(App\Model\UserModel::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'title' => $faker->sentence($nbWords = 6, $variableNbWords = true),

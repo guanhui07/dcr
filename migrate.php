@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 require_once __DIR__.'/vendor/autoload.php';
 
-use app\Utils\Config;
-use dcr\Boostrap;
-use dcr\Container;
+use App\Utils\Config;
+use Dcr\Boostrap;
+use Dcr\Container;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\Migrations\Configuration\Connection\ExistingConnection;

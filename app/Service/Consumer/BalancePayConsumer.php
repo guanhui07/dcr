@@ -1,21 +1,21 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Service\Consumer;
+namespace App\Service\Consumer;
 
-use app\Model\UserModel;
-use app\Utils\Json;
-use app\Utils\Mq\MqConsumer;
+use App\Model\UserModel;
+use App\Utils\Json;
+use App\Utils\Mq\MqConsumer;
 use PhpAmqpLib\Message\AMQPMessage;
 
 /**
  * Class
- * @package app\service\consumer
+ * @package App\service\consumer
  */
 class BalancePayConsumer extends MqConsumer implements BaseConsumerInterface
 {

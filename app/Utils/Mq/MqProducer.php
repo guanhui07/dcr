@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Utils\Mq;
+namespace App\Utils\Mq;
 
-use app\Utils\Config;
+use App\Utils\Config;
 use Exception;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;

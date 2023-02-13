@@ -1,19 +1,19 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Service;
+namespace App\Service;
 
-use app\Repository\TestRepository;
+use App\Repository\TestRepository;
 use DI\Attribute\Inject;
 
 /**
  * Class TestService
- * @package app\Service
+ * @package App\Service
  */
 class TestService
 {

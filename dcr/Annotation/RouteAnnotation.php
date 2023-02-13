@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
-namespace dcr\Annotation;
-use dcr\Annotation\Mapping\Middleware;
-use dcr\Annotation\Mapping\Middlewares;
-use dcr\Annotation\Mapping\RequestMapping;
-use dcr\Router;
+namespace Dcr\Annotation;
+use Dcr\Annotation\Mapping\Middleware;
+use Dcr\Annotation\Mapping\Middlewares;
+use Dcr\Annotation\Mapping\RequestMapping;
+use Dcr\Router;
 use Doctrine\Common\Annotations\AnnotationReader;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -60,7 +60,7 @@ class RouteAnnotation
              * @var  $class_name *根据文件路径获取类名
              */
             //    $class_name = str_replace('/', '\\', substr(substr($file_path, strlen(base_path())), 0, -4));
-            $class_name = str_replace(base_path(), '', $file_path);
+            $class_name = ucfirst(str_replace(base_path(), '', $file_path));
             $class_name = substr($class_name, 0, -4);
             $class_name = str_replace('/', '\\', $class_name);
             //    echo $class_name . PHP_EOL;

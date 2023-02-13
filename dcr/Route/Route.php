@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace dcr\Route;
+namespace Dcr\Route;
 
 /**
  * This file is part of webman.
@@ -22,7 +22,7 @@ namespace dcr\Route;
  */
 
 
-use dcr\Router as Router;
+use Dcr\Router as Router;
 use function array_merge;
 use function count;
 use function preg_replace_callback;

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use app\Crontab\TestCrontab;
+use App\Crontab\TestCrontab;
 use Workerman\Crontab\Crontab as WmCrontab;
 
 return [

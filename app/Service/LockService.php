@@ -2,20 +2,20 @@
 
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Service;
+namespace App\Service;
 
-use app\Utils\Redis;
+use App\Utils\Redis;
 use Exception;
 use RuntimeException;
 
 /**
  * Class LockService
- * @package app\Service
+ * @package App\Service
  */
 class LockService
 {

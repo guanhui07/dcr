@@ -1,17 +1,17 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Console;
+namespace App\Console;
 
 /**
  * 所有的命令类注册 类
  * Class Kernel
- * @package app\Console
+ * @package App\Console
  */
 class Kernel
 {
@@ -21,8 +21,9 @@ class Kernel
     public static function getCommands(): array
     {
         return [
-            \app\Console\Command\TestCommand::class,
-            \app\Console\Command\Test2Consumer::class,
+            \App\Console\Command\TestCommand::class,
+            \App\Console\Command\Test2Consumer::class,
+            \App\Console\Command\ProcessCommand::class,
         ];
     }
 }

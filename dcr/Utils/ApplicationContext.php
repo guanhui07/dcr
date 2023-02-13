@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace dcr\Utils;
+namespace Dcr\Utils;
 
 class ApplicationContext
 {

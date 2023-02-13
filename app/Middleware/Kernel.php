@@ -1,16 +1,16 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Middleware;
+namespace App\Middleware;
 
 /**
  * Class Kernel
- * @package app\Middleware
+ * @package App\Middleware
  * @see @see https://github.com/middlewares/utils
  */
 class Kernel

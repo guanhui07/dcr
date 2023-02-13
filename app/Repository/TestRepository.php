@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  */
 
-namespace app\Repository;
+namespace App\Repository;
 
 //不能用laravel的门面 Illuminate\Support\Facades\DB;
 use Illuminate\Database\Capsule\Manager as DB;

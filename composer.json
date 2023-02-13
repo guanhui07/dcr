@@ -59,7 +59,8 @@
     "workerman/crontab": "^1.0",
     "workerman/gateway-worker": "^3.0.0",
     "workerman/gatewayclient": "^3.0",
-    "workerman/workerman": "^3.5"
+    "workerman/workerman": "^3.5",
+    "ext-posix": "*"
   },
   "require-dev": {
     "phpunit/php-timer": "^5.0",
@@ -75,8 +76,8 @@
   },
   "autoload": {
     "psr-4": {
-      "app\\": "app/",
-      "dcr\\": "dcr/"
+      "App\\": "app/",
+      "Dcr\\": "dcr/"
     },
     "files": [
       "app/helpers.php"
@@ -89,7 +90,8 @@
   },
   "scripts": {
     "post-autoload-dump": [
-      "cp -r -f ./fix/AbstractHandler.php ./vendor/inhere/console/src/Handler"
+      "cp -r -f ./fix/AbstractHandler.php ./vendor/inhere/console/src/Handler",
+      "cp -r -f ./fix/Event.php ./vendor/workerman/workerman/Events/"
     ],
     "serve": [
       "@php -S 127.0.0.1:8001 -t ./public"

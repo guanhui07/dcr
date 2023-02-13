@@ -1,21 +1,21 @@
 <?php declare(strict_types=1);
 /**
- * The file is part of dcr/framework
+ * The file is part of Dcr/framework
  *
  *
  */
 
-namespace app\Worker;
+namespace App\Worker;
 
-use app\Utils\Json;
-use app\Utils\Socket;
+use App\Utils\Json;
+use App\Utils\Socket;
 use Exception;
 use GatewayClient\Gateway;
 use Workerman\Worker;
 
 /**
  * Class Events
- * @package app\Worker
+ * @package App\Worker
  * @see https://www.workerman.net/doc/gateway-worker/on-worker-start.html
  */
 class Events

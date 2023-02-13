@@ -1,13 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace app\Event;
+namespace App\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class TestEvent
- * @package app\Event
+ * @package App\Event
  */
 class TestEvent extends Event
 {

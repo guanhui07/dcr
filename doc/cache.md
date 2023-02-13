@@ -1,11 +1,11 @@
 ## cache
 
-dcr暂时只支持redis做缓存
+Dcr暂时只支持redis做缓存
 
 
 ## 使用
 ```php
-use app\Utils\Redis;
+use App\Utils\Redis;
 
 
 
