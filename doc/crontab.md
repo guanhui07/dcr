@@ -1,7 +1,6 @@
 ## crontab
 
-秒级别定时任务，基础于swoole实现  `guanhui07/dcr-swoole-crontab` composer 包,参考的hyperf 的`crontab`包
-底层为 `Swoole\Timer`  
+秒级别定时任务，基础于workerman crontab实现 
 
 
 
@@ -35,4 +34,18 @@ class TestCrontab implements CrontabInterface
     }
 }
 
+```
+
+
+`/config/crontab.php`
+
+```php
+<?php
+use app\Crontab\TestCrontab;
+
+return [
+    'crontab' => [
+        ['*/1  * * * * *',TestCrontab::class],
+    ],
+]; 
 ```
