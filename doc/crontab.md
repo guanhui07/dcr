@@ -1,7 +1,8 @@
 ## crontab
 
 秒级别定时任务，基础于workerman crontab实现 
-
+`workerman/crontab` composer包
+底层：`pcntl_alarm` `pcntl扩展` 原生php支持
 
 
 ### crontab定时任务 需要在 `/config/crontab.php` 配置 定时任务
