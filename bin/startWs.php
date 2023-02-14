@@ -6,6 +6,7 @@ declare(strict_types = 1);
 require_once('./vendor/autoload.php');
 
 use App\Console\BaseInterface;
+use App\Utils\Config;
 use App\Worker\Events;
 use Dcr\Container;
 use GatewayWorker\BusinessWorker;
@@ -59,53 +60,56 @@ class startWs extends BaseCommand implements BaseInterface
 
     private function start()
     {
-        $this->startGateWay();
-        $this->startBusinessWorker();
-        $this->startRegister();
+        $config = Config::get('gateway_worker');
+        $this->startGateWay($config);
+        $this->startBusinessWorker($config);
+        $this->startRegister($config);
         Worker::runAll();
     }
 
     /**
      * @see https://www.workerman.net/doc/gateway-worker/business-worker.html
      */
-    private function startBusinessWorker(): void
+    private function startBusinessWorker($config): void
     {
         $worker                  = new BusinessWorker();
-        $worker->name            = 'BusinessWorker';
-        $worker->count           = 4;
-        $worker->registerAddress = '127.0.0.1:1236';
+        $worker->name            = $config['name'] ?? 'dcr';
+        $worker->count           = $config['businessWorker']['count'] ?? 4;
+        $worker->registerAddress = $config['registerAddress'];
         /**
          * @see https://www.workerman.net/doc/gateway-worker/on-worker-start.html
          */
-        $worker->eventHandler    = Events::class;
+        $worker->eventHandler    = $config['businessWorker']['eventHandler'];
     }
 
     /**
      * @see https://www.workerman.net/doc/gateway-worker/gateway.html
      */
-    private function startGateWay(): void
+    private function startGateWay($config): void
     {
         // wssocket 端口
-        $gateway                       = new Gateway("websocket://0.0.0.0:16229");
+        $gateway                       = new Gateway("websocket://". $config['host'].':'. $config['port']);
         $gateway->name                 = 'Gateway';
-        $gateway->count                = 4;
+        $gateway->count                = $config['count'] ?? 4;
         $gateway->lanIp                = '127.0.0.1';
         $gateway->startPort            = 2300;
 
-        $gateway->pingInterval         = 30;
-        $gateway->pingNotResponseLimit = 0;
-        $gateway->pingData             = '{"type":"@heart@"}';
+        $gateway->pingInterval         = $config['pingInterval'] ?? 40;
+        $gateway->pingNotResponseLimit = $config['pingNotResponseLimit'] ?? 0;
+        $gateway->pingData             = $config['pingData'] ?? '{"type":"@heart@"}';
 
-        $gateway->registerAddress      = '127.0.0.1:1236';
+        $gateway->registerAddress      = $config['registerAddress'];
     }
 
     /**
      * @return Register
      * @see https://www.workerman.net/doc/gateway-worker/register.html
      */
-    private function startRegister(): Register
+    private function startRegister($config): Register
     {
-        return new Register('text://0.0.0.0:1236');
+        $data = explode(':',$config['registerAddress']);
+        $port = end($data);
+        return new Register('text://'.$config['host'].':'.$port);
     }
 
 }
