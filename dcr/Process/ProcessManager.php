@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Dcr\Process;
 
+use App\Process\ProcessInterface;
+
 class ProcessManager
 {
     public function run(string $className,int $processNum = 1): void
@@ -23,7 +25,9 @@ class ProcessManager
                     pcntl_signal_dispatch();
                 }
             } elseif (0 === $pid) {
-                (new $className())->hook();
+                /** @var ProcessInterface $obj */
+                $obj = new $className();
+                $obj->hook();
             }
         }
     }

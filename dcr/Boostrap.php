@@ -54,7 +54,11 @@ class Boostrap
             ini_set('display_error', 'Off');
         }
 
-        //spl_autoload_register('Core\\Loader::autoload');
+//        set_error_handler(static function ($level, $message, $file = '', $line = 0) {
+//            if (error_reporting() & $level) {
+//                throw new \ErrorException($message, 0, $level, $file, $line);
+//            }
+//        });
 
         set_exception_handler('cException');
         // laravel orm
