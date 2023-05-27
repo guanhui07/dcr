@@ -57,7 +57,7 @@
     "symfony/http-kernel": "^6.2",
     "vlucas/phpdotenv": "^5.4",
     "workerman/crontab": "^1.0",
-    "workerman/gateway-worker": "^4.0",
+    "workerman/gateway-worker": "^3.0",
     "workerman/gatewayclient": "^3.0",
     "workerman/workerman": "^4.0",
     "ext-posix": "*"
