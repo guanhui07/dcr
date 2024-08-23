@@ -363,5 +363,5 @@ https://github.com/guanhui07/dcr-swoole  高性能PHP Framework ，Cli模式，�
 
 https://github.com/guanhui07/timer php定时器，参考了workerman源码 实现一个单进程(守护进程)的定时器。
 
-
+https://github.com/guanhui07/open-ai  open-ai  chatgpt调用
 
