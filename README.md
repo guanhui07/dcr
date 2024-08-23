@@ -365,3 +365,5 @@ https://github.com/guanhui07/timer php定时器，参考了workerman源码 实�
 
 https://github.com/guanhui07/open-ai  open-ai  chatgpt调用
 
+https://github.com/guanhui07/geohash  附近的人 geohash
+
