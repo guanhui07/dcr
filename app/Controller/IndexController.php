@@ -24,6 +24,12 @@ class IndexController extends Controller
         parent::__construct();
     }
 
+    #[RequestMapping(methods: "GET , POST", path:"/")]
+    public function index(): string
+    {
+        return 'hello world';
+    }
+
     #[RequestMapping(methods: "GET , POST", path:"/index/test1")]
     public function test(): string
     {
