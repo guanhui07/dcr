@@ -23,9 +23,7 @@
     "ext-libxml": "*",
     "ext-openssl": "*",
     "ext-pcntl": "*",
-    "ext-redis": "*",
     "ext-simplexml": "*",
-    "ext-swoole": "*",
     "doctrine/annotations": "^2.0",
     "doctrine/instantiator": "^1.5",
     "doctrine/migrations": "^3.5",
@@ -68,13 +66,11 @@
     "phpunit/php-timer": "^5.0",
     "phpunit/phpunit": "^9.5",
     "friendsofphp/php-cs-fixer": "^3.0.0",
-    "roave/security-advisories": "dev-latest",
-    "swoole/ide-helper": "~5.0.0"
+    "roave/security-advisories": "dev-latest"
   },
   "suggest": {
     "php": ">=8.2",
-    "ext-event": "For better performance. ",
-    "ext-swoole": "Swoole Server is Fasted plugin"
+    "ext-event": "For better performance. "
   },
   "autoload": {
     "psr-4": {
