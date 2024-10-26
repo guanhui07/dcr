@@ -41,7 +41,7 @@ php ./bin/crontab.php start
 
 command 应用
 ```
-php artisan test2
+php artisan test
 ```
 
 ## 路由注解 和 中间件注解 以及Inject注解  使用
